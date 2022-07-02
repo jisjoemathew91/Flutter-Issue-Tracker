@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_issue_tracker/issue_tracker/presentation/pages/issue_detail_page.dart';
-import 'package:flutter_issue_tracker/issue_tracker/presentation/pages/issues_page.dart';
+import 'package:flutter_issue_tracker/issue_tracker/presentation/issue_detail/pages/issue_detail_page.dart';
+import 'package:flutter_issue_tracker/issue_tracker/presentation/issues/pages/issues_page.dart';
 
 /// Class defines the route names.
 /// [routes] has the mapping between screens and its corresponding name
