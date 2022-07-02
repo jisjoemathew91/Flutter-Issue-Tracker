@@ -8,12 +8,16 @@ environment:
 
 dependencies:
   bloc: ^8.0.3
+  dartz: ^0.10.1
+  equatable: ^2.0.3
   flutter:
     sdk: flutter
   flutter_bloc: ^8.0.1
-  flutter_localizations:
-    sdk: flutter
+  flutter_dotenv: ^5.0.2
+  get_it: ^7.2.0
+  graphql_flutter: ^5.1.0
   intl: ^0.17.0
+  stream_transform: ^2.0.0
 
 dev_dependencies:
   bloc_test: ^9.0.3
@@ -23,11 +27,15 @@ dev_dependencies:
   mocktail: ^0.3.0
   very_good_analysis: ^3.0.0
 
-flutter:
-  uses-material-design: true
-  generate: true
-
 flutter_icons:
   android: "launcher_icon"
   ios: true
   image_path: "assets/icon/ic_app.png"
+
+flutter:
+  uses-material-design: true
+  generate: true
+
+  assets:
+    - .env
+
