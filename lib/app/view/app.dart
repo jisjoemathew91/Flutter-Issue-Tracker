@@ -13,7 +13,7 @@ class App extends StatelessWidget {
           accentColor: const Color(0xFF13B9FF),
         ),
       ),
-      initialRoute: AppPageRoutes.issuesPage,
+      initialRoute: AppPageRoutes.splashPage,
       routes: AppPageRoutes.routes,
     );
   }
