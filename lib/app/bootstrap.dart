@@ -3,6 +3,9 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_issue_tracker/app/injection.dart' as di;
+import 'package:graphql_flutter/graphql_flutter.dart';
 
 /// Logs the change and error in bloc class
 class AppBlocObserver extends BlocObserver {
@@ -27,6 +30,15 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
 
   await runZonedGuarded(
     () async {
+      WidgetsFlutterBinding.ensureInitialized();
+
+      await dotenv.load();
+
+      /// HiveStore is used for persistence
+      await initHiveForFlutter();
+
+      await di.init();
+
       await BlocOverrides.runZoned(
         () async => runApp(await builder()),
         blocObserver: AppBlocObserver(),
