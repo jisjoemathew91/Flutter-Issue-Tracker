@@ -5,7 +5,8 @@ mixin IssueQueries {
   $first: Int!
   $orderBy: IssueOrder
   $filterBy: IssueFilters
-  $after: String) {
+  $after: String
+  $labelFirst: Int) {
   repository(owner: $owner, name: $name) {
     issues(
       first: $first
@@ -30,7 +31,7 @@ mixin IssueQueries {
         isReadByViewer
         createdAt
         closedAt
-        labels(first:10){
+        labels(first: $labelFirst){
           nodes{
             id
             color
@@ -57,7 +58,9 @@ query IssueDetailQuery($owner: String!
       }
       createdAt
       closedAt
+      bodyUrl
       body
+      bodyHTML
       state
       stateReason
       comments {
@@ -74,6 +77,71 @@ query IssueDetailQuery($owner: String!
           color
           name
         }
+      }
+    }
+  }
+}''';
+
+  static String listAssignableUsersQuery = r'''
+  query ListAssignableUser($owner: String!
+  $name: String!
+  $first: Int
+  $after: String) {
+  repository(owner: $owner, name: $name) {
+    assignableUsers(first: $first, after: $after) {
+      pageInfo{
+        hasNextPage
+        endCursor
+      }
+      nodes {
+        id
+        avatarUrl
+        name
+        login
+      }
+    }
+  }
+}''';
+
+  static String listLabelsQuery = r'''
+  query ListLabels($owner: String!
+  $name: String!
+  $first: Int
+  $after: String
+  $orderBy: LabelOrder) {
+  repository(owner: $owner, name: $name) {
+    labels(first: $first 
+      after: $after
+      orderBy: $orderBy) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      nodes {
+        id
+        color
+        name
+      }
+    }
+  }
+}''';
+
+  static String listMilestonesQuery = r'''
+  query ListMilestones($owner: String!
+  $name: String!
+  $first: Int
+  $after: String) {
+  repository(owner: $owner, name: $name) {
+    milestones(first: $first 
+      after: $after) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      nodes {
+        id
+        number
+        title
       }
     }
   }

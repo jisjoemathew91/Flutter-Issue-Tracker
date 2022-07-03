@@ -1,6 +1,9 @@
 import 'package:flutter_issue_tracker/issue_tracker/data/datasource/issue_query.dart';
+import 'package:flutter_issue_tracker/issue_tracker/data/model/assignable_users_model.dart';
 import 'package:flutter_issue_tracker/issue_tracker/data/model/issue_node_model.dart';
 import 'package:flutter_issue_tracker/issue_tracker/data/model/issues_model.dart';
+import 'package:flutter_issue_tracker/issue_tracker/data/model/labels_model.dart';
+import 'package:flutter_issue_tracker/issue_tracker/data/model/milestones_model.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 /// Data Source for fetching issues related queries
@@ -17,6 +20,7 @@ abstract class IssueDataSource {
     required String owner,
     required String name,
     required int limit,
+    required int labelLimit,
     required String states,
     String? direction,
     String? field,
@@ -35,6 +39,44 @@ abstract class IssueDataSource {
     required String name,
     required int number,
   });
+
+  /// Fetches assignees with a fixed [limit]
+  ///
+  /// -> onSuccess returns [AssignableUsersModel]
+  /// -> onError throws [Exception]
+  Future<AssignableUsersModel> getAssignableUsers({
+    required String owner,
+    required String name,
+    required int limit,
+    String? nextToken,
+  });
+
+  /// Fetches labels with a fixed [limit]
+  ///
+  /// 1. [direction] values are ASC or DESC
+  /// 2. [field] values are NAME or CREATED_AT
+  ///
+  /// -> onSuccess returns [LabelsModel]
+  /// -> onError throws [Exception]
+  Future<LabelsModel> getLabels({
+    required String owner,
+    required String name,
+    required int limit,
+    String? nextToken,
+    String? field,
+    String? direction,
+  });
+
+  /// Fetches ilestones with a fixed [limit]
+  ///
+  /// -> onSuccess returns [MilestonesModel]
+  /// -> onError throws [Exception]
+  Future<MilestonesModel> getMilestones({
+    required String owner,
+    required String name,
+    required int limit,
+    String? nextToken,
+  });
 }
 
 /// [IssueDataSource] Implementation class
@@ -51,6 +93,7 @@ class IssueDataSourceImpl implements IssueDataSource {
   }) async {
     try {
       final variables = {'owner': owner, 'name': name, 'number': number};
+
       final result = await _client.query(
         QueryOptions(
           document: gql(IssueQueries.issueDetailQuery),
@@ -72,6 +115,7 @@ class IssueDataSourceImpl implements IssueDataSource {
     required String owner,
     required String name,
     required int limit,
+    required int labelLimit,
     required String states,
     String? direction,
     String? field,
@@ -85,6 +129,7 @@ class IssueDataSourceImpl implements IssueDataSource {
         'owner': owner,
         'name': name,
         'first': limit,
+        'labelFirst': labelLimit,
         'filterBy': {'states': states}
       };
       if (nextToken != null) variables['after'] = nextToken;
@@ -103,6 +148,97 @@ class IssueDataSourceImpl implements IssueDataSource {
       );
       if (result.data?['repository']['issues'] != null) {
         return IssuesModel.fromJson(result.data!['repository']['issues']);
+      } else {
+        throw const ContextReadException();
+      }
+    } on Exception {
+      throw const ServerException();
+    }
+  }
+
+  @override
+  Future<AssignableUsersModel> getAssignableUsers({
+    required String owner,
+    required String name,
+    required int limit,
+    String? nextToken,
+  }) async {
+    try {
+      final variables = {'owner': owner, 'name': name, 'first': limit};
+      if (nextToken != null) variables['after'] = nextToken;
+
+      final result = await _client.query(
+        QueryOptions(
+          document: gql(IssueQueries.listAssignableUsersQuery),
+          variables: variables,
+        ),
+      );
+      if (result.data?['repository']['assignableUsers'] != null) {
+        return AssignableUsersModel.fromJson(
+          result.data?['repository']['assignableUsers'],
+        );
+      } else {
+        throw const ContextReadException();
+      }
+    } on Exception {
+      throw const ServerException();
+    }
+  }
+
+  @override
+  Future<LabelsModel> getLabels({
+    required String owner,
+    required String name,
+    required int limit,
+    String? nextToken,
+    String? field,
+    String? direction,
+  }) async {
+    try {
+      final variables = {'owner': owner, 'name': name, 'first': limit};
+      if (nextToken != null) variables['after'] = nextToken;
+      if (direction != null && field != null) {
+        variables['orderBy'] = {'direction': direction, 'field': field};
+      }
+
+      final result = await _client.query(
+        QueryOptions(
+          document: gql(IssueQueries.listLabelsQuery),
+          variables: variables,
+        ),
+      );
+      if (result.data?['repository']['labels'] != null) {
+        return LabelsModel.fromJson(
+          result.data?['repository']['labels'],
+        );
+      } else {
+        throw const ContextReadException();
+      }
+    } on Exception {
+      throw const ServerException();
+    }
+  }
+
+  @override
+  Future<MilestonesModel> getMilestones({
+    required String owner,
+    required String name,
+    required int limit,
+    String? nextToken,
+  }) async {
+    try {
+      final variables = {'owner': owner, 'name': name, 'first': limit};
+      if (nextToken != null) variables['after'] = nextToken;
+      final result = await _client.query(
+        QueryOptions(
+          document: gql(IssueQueries.listMilestonesQuery),
+          variables: variables,
+        ),
+      );
+      if (result.data?['repository']['milestones'] != null) {
+        return MilestonesModel.fromJson(
+          result.data?['repository']['milestones'],
+        );
       } else {
         throw const ContextReadException();
       }

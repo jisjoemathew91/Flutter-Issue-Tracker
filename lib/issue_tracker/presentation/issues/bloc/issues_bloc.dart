@@ -31,6 +31,7 @@ class IssuesBloc extends Bloc<IssuesEvent, IssuesState> {
       owner: dotenv.env['PROJECT_OWNER']!,
       name: dotenv.env['PROJECT_NAME']!,
       limit: 20,
+      labelLimit: 30,
       states: 'OPEN',
       direction: 'DESC',
       field: 'CREATED_AT',
