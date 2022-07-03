@@ -10,7 +10,9 @@ class IssueNode {
     this.author,
     this.createdAt,
     this.closedAt,
+    this.bodyUrl,
     this.body,
+    this.bodyHTML,
     this.state,
     this.stateReason,
     this.comments,
@@ -24,7 +26,9 @@ class IssueNode {
   AuthorModel? author;
   String? createdAt;
   String? closedAt;
+  String? bodyUrl;
   String? body;
+  String? bodyHTML;
   String? state;
   String? stateReason;
   CommentsModel? comments;

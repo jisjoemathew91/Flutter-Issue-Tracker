@@ -11,7 +11,9 @@ class IssueNodeModel {
     this.author,
     this.createdAt,
     this.closedAt,
+    this.bodyUrl,
     this.body,
+    this.bodyHTML,
     this.state,
     this.stateReason,
     this.comments,
@@ -27,7 +29,9 @@ class IssueNodeModel {
         json['author'] != null ? AuthorModel.fromJson(json['author']) : null;
     createdAt = json['createdAt'] as String?;
     closedAt = json['closedAt'] as String?;
+    bodyUrl = json['bodyUrl'] as String?;
     body = json['body'] as String?;
+    bodyHTML = json['bodyHTML'] as String?;
     state = json['state'] as String?;
     stateReason = json['stateReason'] as String?;
     comments = json['comments'] != null
@@ -44,7 +48,9 @@ class IssueNodeModel {
   AuthorModel? author;
   String? createdAt;
   String? closedAt;
+  String? bodyUrl;
   String? body;
+  String? bodyHTML;
   String? state;
   String? stateReason;
   CommentsModel? comments;
@@ -61,7 +67,9 @@ class IssueNodeModel {
     }
     map['createdAt'] = createdAt;
     map['closedAt'] = closedAt;
+    map['bodyUrl'] = bodyUrl;
     map['body'] = body;
+    map['bodyHTML'] = bodyHTML;
     map['state'] = state;
     map['stateReason'] = stateReason;
     map['isReadByViewer'] = isReadByViewer;
@@ -81,7 +89,9 @@ class IssueNodeModel {
         author: author,
         createdAt: createdAt,
         closedAt: closedAt,
+        bodyUrl: bodyUrl,
         body: body,
+        bodyHTML: bodyHTML,
         state: state,
         stateReason: stateReason,
         comments: comments,
