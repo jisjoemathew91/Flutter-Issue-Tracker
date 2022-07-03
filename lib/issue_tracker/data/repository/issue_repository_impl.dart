@@ -26,7 +26,13 @@ class IssueRepositoryImpl implements IssueRepository {
       final entity = model.toEntity();
       return Right(entity);
     } on ServerException {
-      return const Left(ServerFailure('Request failed! Server error'));
+      return const Left(
+        ServerFailure('Request failed! Server error'),
+      );
+    } on ContextReadException {
+      return const Left(
+        ServerFailure('Request failed! Server failed to pass the data'),
+      );
     }
   }
 
@@ -39,6 +45,9 @@ class IssueRepositoryImpl implements IssueRepository {
     String? direction,
     String? field,
     String? nextToken,
+    String? assignee,
+    String? createdBy,
+    String? milestone,
   }) async {
     try {
       final model = await _issueDataSource.getIssues(
@@ -49,11 +58,20 @@ class IssueRepositoryImpl implements IssueRepository {
         direction: direction,
         field: field,
         nextToken: nextToken,
+        assignee: assignee,
+        createdBy: createdBy,
+        milestone: milestone,
       );
       final entity = model.toEntity();
       return Right(entity);
     } on ServerException {
-      return const Left(ServerFailure('Request failed! Server error'));
+      return const Left(
+        ServerFailure('Request failed! Server error'),
+      );
+    } on ContextReadException {
+      return const Left(
+        ServerFailure('Request failed! Server failed to pass the data'),
+      );
     }
   }
 }

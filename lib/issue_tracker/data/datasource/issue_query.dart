@@ -10,7 +10,7 @@ mixin IssueQueries {
     issues(
       first: $first
       orderBy: $orderBy
-      filterBy: filterBy
+      filterBy: $filterBy
       after: $after
     ) {
       pageInfo {
