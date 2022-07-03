@@ -3,6 +3,7 @@ import 'package:flutter_issue_tracker/issue_tracker/data/failure.dart';
 import 'package:flutter_issue_tracker/issue_tracker/domain/entities/issue_node.dart';
 import 'package:flutter_issue_tracker/issue_tracker/domain/repository/issue_repository.dart';
 
+/// Usecase for getting issue detail.
 class GetIssueDetail {
   GetIssueDetail(this.repository);
 
