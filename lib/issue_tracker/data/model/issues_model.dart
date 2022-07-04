@@ -35,7 +35,11 @@ class IssuesModel {
   }
 
   Issues toEntity() => Issues(
-        nodes: nodes,
-        pageInfo: pageInfo,
+        nodes: nodes
+            ?.map(
+              (n) => n.toEntity(),
+            )
+            .toList(),
+        pageInfo: pageInfo?.toEntity(),
       );
 }

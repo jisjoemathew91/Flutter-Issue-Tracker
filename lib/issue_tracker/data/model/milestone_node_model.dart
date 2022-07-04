@@ -1,3 +1,5 @@
+import 'package:flutter_issue_tracker/issue_tracker/domain/entities/milestone_node.dart';
+
 class MilestoneNodeModel {
   MilestoneNodeModel({
     this.id,
@@ -22,4 +24,10 @@ class MilestoneNodeModel {
     map['title'] = title;
     return map;
   }
+
+  MilestoneNode toEntity() => MilestoneNode(
+        id: id,
+        number: number,
+        title: title,
+      );
 }
