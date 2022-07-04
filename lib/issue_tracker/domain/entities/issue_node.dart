@@ -1,6 +1,6 @@
-import 'package:flutter_issue_tracker/issue_tracker/data/model/author_model.dart';
-import 'package:flutter_issue_tracker/issue_tracker/data/model/comments_model.dart';
-import 'package:flutter_issue_tracker/issue_tracker/data/model/labels_model.dart';
+import 'package:flutter_issue_tracker/issue_tracker/domain/entities/author.dart';
+import 'package:flutter_issue_tracker/issue_tracker/domain/entities/comments.dart';
+import 'package:flutter_issue_tracker/issue_tracker/domain/entities/labels.dart';
 
 class IssueNode {
   IssueNode({
@@ -23,7 +23,7 @@ class IssueNode {
   String? id;
   int? number;
   String? title;
-  AuthorModel? author;
+  Author? author;
   String? createdAt;
   String? closedAt;
   String? bodyUrl;
@@ -31,7 +31,7 @@ class IssueNode {
   String? bodyHTML;
   String? state;
   String? stateReason;
-  CommentsModel? comments;
-  LabelsModel? labels;
+  Comments? comments;
+  Labels? labels;
   bool? isReadByViewer;
 }

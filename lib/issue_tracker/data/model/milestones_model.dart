@@ -35,7 +35,11 @@ class MilestonesModel {
   }
 
   Milestones toEntity() => Milestones(
-    nodes: nodes,
-    pageInfo: pageInfo,
-  );
+        nodes: nodes
+            ?.map(
+              (n) => n.toEntity(),
+            )
+            .toList(),
+        pageInfo: pageInfo?.toEntity(),
+      );
 }

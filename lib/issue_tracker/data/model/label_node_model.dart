@@ -1,3 +1,5 @@
+import 'package:flutter_issue_tracker/issue_tracker/domain/entities/label_node.dart';
+
 class LabelNodeModel {
   LabelNodeModel({
     this.id,
@@ -22,4 +24,10 @@ class LabelNodeModel {
     map['name'] = name;
     return map;
   }
+
+  LabelNode toEntity() => LabelNode(
+        id: id,
+        color: color,
+        name: name,
+      );
 }

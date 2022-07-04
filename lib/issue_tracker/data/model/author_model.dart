@@ -1,3 +1,5 @@
+import 'package:flutter_issue_tracker/issue_tracker/domain/entities/author.dart';
+
 class AuthorModel {
   AuthorModel({
     this.avatarUrl,
@@ -18,4 +20,9 @@ class AuthorModel {
     map['login'] = login;
     return map;
   }
+
+  Author toEntity() => Author(
+        avatarUrl: avatarUrl,
+        login: login,
+      );
 }

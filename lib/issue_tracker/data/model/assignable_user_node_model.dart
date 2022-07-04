@@ -1,3 +1,5 @@
+import 'package:flutter_issue_tracker/issue_tracker/domain/entities/assignable_user_node.dart';
+
 class AssignableUserNodeModel {
   AssignableUserNodeModel({
     this.id,
@@ -26,4 +28,11 @@ class AssignableUserNodeModel {
     map['login'] = login;
     return map;
   }
+
+  AssignableUserNode toEntity() => AssignableUserNode(
+        id: id,
+        avatarUrl: avatarUrl,
+        name: name,
+        login: login,
+      );
 }

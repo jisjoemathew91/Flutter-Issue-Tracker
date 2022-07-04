@@ -1,5 +1,5 @@
-import 'package:flutter_issue_tracker/issue_tracker/data/model/milestone_node_model.dart';
-import 'package:flutter_issue_tracker/issue_tracker/data/model/page_info_model.dart';
+import 'package:flutter_issue_tracker/issue_tracker/domain/entities/milestone_node.dart';
+import 'package:flutter_issue_tracker/issue_tracker/domain/entities/page_info.dart';
 
 class Milestones {
   Milestones({
@@ -7,6 +7,6 @@ class Milestones {
     this.nodes,
   });
 
-  PageInfoModel? pageInfo;
-  List<MilestoneNodeModel>? nodes;
+  PageInfo? pageInfo;
+  List<MilestoneNode>? nodes;
 }

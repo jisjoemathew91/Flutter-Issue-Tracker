@@ -1,5 +1,5 @@
-import 'package:flutter_issue_tracker/issue_tracker/data/model/issue_node_model.dart';
-import 'package:flutter_issue_tracker/issue_tracker/data/model/page_info_model.dart';
+import 'package:flutter_issue_tracker/issue_tracker/domain/entities/issue_node.dart';
+import 'package:flutter_issue_tracker/issue_tracker/domain/entities/page_info.dart';
 
 class Issues {
   Issues({
@@ -7,6 +7,6 @@ class Issues {
     this.nodes,
   });
 
-  PageInfoModel? pageInfo;
-  List<IssueNodeModel>? nodes;
+  PageInfo? pageInfo;
+  List<IssueNode>? nodes;
 }
