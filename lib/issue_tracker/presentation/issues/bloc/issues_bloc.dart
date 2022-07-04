@@ -17,12 +17,13 @@ EventTransformer<Event> debounce<Event>(Duration duration) {
 
 class IssuesBloc extends Bloc<IssuesEvent, IssuesState> {
   IssuesBloc(this._getIssues) : super(const IssuesState()) {
-    on<FetchIssuesEvent>(getIssues, transformer: debounce(_duration));
+    on<FetchIssuesEvent>(onFetchIssues, transformer: debounce(_duration));
+    on<UpdateStateEvent>(onUpdateState);
   }
 
   final GetIssues _getIssues;
 
-  Future<void> getIssues(
+  Future<void> onFetchIssues(
     FetchIssuesEvent event,
     Emitter<IssuesState> emit,
   ) async {
@@ -32,15 +33,27 @@ class IssuesBloc extends Bloc<IssuesEvent, IssuesState> {
       name: dotenv.env['PROJECT_NAME']!,
       limit: 20,
       labelLimit: 30,
-      states: 'OPEN',
+      states: state.states!,
       direction: 'DESC',
       field: 'CREATED_AT',
-      nextToken: state.nextToken,
+      nextToken: event.isInitial ? null : state.nextToken,
     );
     result.fold((failure) {
       emit(state.copyWith(status: IssuesStatus.error));
     }, (data) {
+      if (!event.isInitial) {
+        data.nodes = (state.issues?.nodes ?? []) + (data.nodes ?? []);
+      }
       emit(state.copyWith(status: IssuesStatus.fetched, issues: data));
     });
+  }
+
+  void onUpdateState(
+    UpdateStateEvent event,
+    Emitter<IssuesState> emit,
+  ) {
+    if (state.states == event.states) return;
+    emit(state.copyWith(states: event.states));
+    add(const FetchIssuesEvent(isInitial: true));
   }
 }
