@@ -1,3 +1,5 @@
+import 'package:flutter_issue_tracker/issue_tracker/domain/entities/comments.dart';
+
 class CommentsModel {
   CommentsModel({
     this.totalCount,
@@ -14,4 +16,8 @@ class CommentsModel {
     map['totalCount'] = totalCount;
     return map;
   }
+
+  Comments toEntity() => Comments(
+        totalCount: totalCount,
+      );
 }

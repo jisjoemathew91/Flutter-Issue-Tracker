@@ -5,6 +5,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_issue_tracker/app/injection.dart' as di;
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 /// Logs the change and error in bloc class
@@ -36,6 +37,8 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
 
       /// HiveStore is used for persistence
       await initHiveForFlutter();
+
+      await ScreenUtil.ensureScreenSize();
 
       await di.init();
 

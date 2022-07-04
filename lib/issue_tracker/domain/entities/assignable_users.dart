@@ -1,5 +1,5 @@
-import 'package:flutter_issue_tracker/issue_tracker/data/model/assignable_user_node_model.dart';
-import 'package:flutter_issue_tracker/issue_tracker/data/model/page_info_model.dart';
+import 'package:flutter_issue_tracker/issue_tracker/domain/entities/assignable_user_node.dart';
+import 'package:flutter_issue_tracker/issue_tracker/domain/entities/page_info.dart';
 
 class AssignableUsers {
   AssignableUsers({
@@ -7,6 +7,6 @@ class AssignableUsers {
     this.nodes,
   });
 
-  PageInfoModel? pageInfo;
-  List<AssignableUserNodeModel>? nodes;
+  PageInfo? pageInfo;
+  List<AssignableUserNode>? nodes;
 }

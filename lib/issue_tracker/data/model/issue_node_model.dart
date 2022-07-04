@@ -86,7 +86,7 @@ class IssueNodeModel {
         id: id,
         number: number,
         title: title,
-        author: author,
+        author: author?.toEntity(),
         createdAt: createdAt,
         closedAt: closedAt,
         bodyUrl: bodyUrl,
@@ -94,8 +94,8 @@ class IssueNodeModel {
         bodyHTML: bodyHTML,
         state: state,
         stateReason: stateReason,
-        comments: comments,
-        labels: labels,
+        comments: comments?.toEntity(),
+        labels: labels?.toEntity(),
         isReadByViewer: isReadByViewer,
       );
 }

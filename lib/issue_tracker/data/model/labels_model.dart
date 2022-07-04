@@ -39,8 +39,12 @@ class LabelsModel {
   }
 
   Labels toEntity() => Labels(
-    nodes: nodes,
-    totalCount: totalCount,
-    pageInfo: pageInfo,
-  );
+        nodes: nodes
+            ?.map(
+              (n) => n.toEntity(),
+            )
+            .toList(),
+        totalCount: totalCount,
+        pageInfo: pageInfo?.toEntity(),
+      );
 }

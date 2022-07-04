@@ -1,3 +1,5 @@
+import 'package:flutter_issue_tracker/issue_tracker/domain/entities/page_info.dart';
+
 class PageInfoModel {
   PageInfoModel({
     this.endCursor,
@@ -18,4 +20,9 @@ class PageInfoModel {
     map['hasNextPage'] = hasNextPage;
     return map;
   }
+
+  PageInfo toEntity() => PageInfo(
+        endCursor: endCursor,
+        hasNextPage: hasNextPage,
+      );
 }

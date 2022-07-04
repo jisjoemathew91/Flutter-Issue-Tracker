@@ -35,7 +35,11 @@ class AssignableUsersModel {
   }
 
   AssignableUsers toEntity() => AssignableUsers(
-    nodes: nodes,
-    pageInfo: pageInfo,
-  );
+        nodes: nodes
+            ?.map(
+              (n) => n.toEntity(),
+            )
+            .toList(),
+        pageInfo: pageInfo?.toEntity(),
+      );
 }
