@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
+import 'package:flutter_issue_tracker/core/failure.dart';
 import 'package:flutter_issue_tracker/issue_tracker/data/datasource/issue_datasource.dart';
-import 'package:flutter_issue_tracker/issue_tracker/data/failure.dart';
 import 'package:flutter_issue_tracker/issue_tracker/domain/entities/assignable_users.dart';
 import 'package:flutter_issue_tracker/issue_tracker/domain/entities/issue_node.dart';
 import 'package:flutter_issue_tracker/issue_tracker/domain/entities/issues.dart';

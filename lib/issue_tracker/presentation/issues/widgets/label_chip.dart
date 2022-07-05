@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_issue_tracker/core/typography.dart';
 import 'package:flutter_issue_tracker/issue_tracker/domain/entities/label_node.dart';
 import 'package:flutter_issue_tracker/issue_tracker/presentation/utils/color_util.dart';
-import 'package:flutter_issue_tracker/theme/presentation/typography.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LabelChip extends StatelessWidget {
@@ -26,9 +26,10 @@ class LabelChip extends StatelessWidget {
       child: Text(
         label.name ?? '',
         style: AppTypography.style(
-          color: textColor,
           textType: TextType.body,
           textSize: TextSize.small,
+        ).copyWith(
+          color: textColor,
         ),
       ),
     );

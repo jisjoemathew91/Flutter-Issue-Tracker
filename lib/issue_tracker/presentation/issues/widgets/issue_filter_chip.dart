@@ -24,8 +24,8 @@ class IssueFilterChip extends StatelessWidget {
       margin: EdgeInsets.all(6.sp),
       decoration: BoxDecoration(
         color: isHighlighted
-            ? AppColors.lightBlue.withOpacity(0.1)
-            : AppColors.fadeGray,
+            ? AppColors.lightBlue.withOpacity(0.2)
+            : null,
         borderRadius: BorderRadius.circular(24.sp),
         border: Border.all(
           color: textColor,

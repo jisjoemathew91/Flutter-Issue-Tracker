@@ -1,6 +1,8 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_issue_tracker/app/routes.dart';
+import 'package:flutter_issue_tracker/core/typography.dart';
 import 'package:flutter_issue_tracker/issue_tracker/presentation/splash/bloc/splash_bloc.dart';
 
 class SplashPage extends StatelessWidget {
@@ -28,9 +30,21 @@ class SplashPageView extends StatelessWidget {
           Navigator.pushReplacementNamed(context, AppPageRoutes.issuesPage);
         }
       },
-      child: const Scaffold(
+      child: Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.surface,
         body: Center(
-          child: Text('Issue Tracker'),
+          child: AnimatedTextKit(
+            animatedTexts: [
+              TypewriterAnimatedText(
+                'Flutter Issue Tracker',
+                textStyle: AppTypography.style(
+                  isBold: true,
+                ),
+                speed: const Duration(milliseconds: 60),
+              ),
+            ],
+            totalRepeatCount: 1,
+          ),
         ),
       ),
     );

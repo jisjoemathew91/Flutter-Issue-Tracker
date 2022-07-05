@@ -5,8 +5,10 @@ import 'package:flutter_issue_tracker/issue_tracker/domain/repository/issue_repo
 import 'package:flutter_issue_tracker/issue_tracker/domain/usecase/get_issue_detail.dart';
 import 'package:flutter_issue_tracker/issue_tracker/domain/usecase/get_issues.dart';
 import 'package:flutter_issue_tracker/issue_tracker/presentation/issues/bloc/issues_bloc.dart';
+import 'package:flutter_issue_tracker/themes/presentation/bloc/theme_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:stacked_themes/stacked_themes.dart';
 
 final locator = GetIt.I;
 
@@ -15,6 +17,7 @@ Future<void> init() async {
 
     // bloc
     ..registerFactory(() => IssuesBloc(locator()))
+    ..registerFactory(() => ThemeBloc(locator()))
 
     // usecase
     ..registerLazySingleton(() => GetIssues(locator()))
@@ -31,6 +34,7 @@ Future<void> init() async {
     )
 
     // external
+    ..registerSingleton(ThemeService.getInstance())
     ..registerLazySingleton<GraphQLClient>(
       () => GraphQLClient(
         link: AuthLink(

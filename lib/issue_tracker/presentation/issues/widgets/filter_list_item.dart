@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_issue_tracker/constants/colors.dart';
-import 'package:flutter_issue_tracker/theme/presentation/typography.dart';
+import 'package:flutter_issue_tracker/core/typography.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class FilterListItem extends StatelessWidget {
   const FilterListItem({
@@ -20,7 +21,12 @@ class FilterListItem extends StatelessWidget {
       onTap: onTap,
       child: ListTile(
         dense: true,
-        tileColor: isSelected ? AppColors.fadeGray : Colors.transparent,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(4.sp),
+        ),
+        tileColor: isSelected
+            ? AppColors.green.withOpacity(0.1)
+            : Colors.transparent,
         trailing: isSelected
             ? const Icon(
                 Icons.check,
@@ -32,7 +38,6 @@ class FilterListItem extends StatelessWidget {
           style: AppTypography.style(
             isBold: true,
             textType: TextType.body,
-            color: AppColors.black,
           ),
         ),
       ),
