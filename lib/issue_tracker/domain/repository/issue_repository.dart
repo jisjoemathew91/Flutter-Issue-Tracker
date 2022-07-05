@@ -15,7 +15,7 @@ abstract class IssueRepository {
   ///
   /// 1. Use [nextToken] for pagination
   /// 2. Use [direction] and [field] for sorting result
-  /// 3. Use [states], [assignee], [createdBy]
+  /// 3. Use [states], [assignee], [labels]
   /// and [milestone] for filtering result
   Future<Either<Failure, Issues>> getIssues({
     required String owner,
@@ -27,7 +27,7 @@ abstract class IssueRepository {
     String? field,
     String? nextToken,
     String? assignee,
-    String? createdBy,
+    List<String>? labels,
     String? milestone,
   });
 

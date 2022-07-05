@@ -26,7 +26,7 @@ abstract class IssueDataSource {
     String? field,
     String? nextToken,
     String? assignee,
-    String? createdBy,
+    List<String>? labels,
     String? milestone,
   });
 
@@ -121,7 +121,7 @@ class IssueDataSourceImpl implements IssueDataSource {
     String? field,
     String? nextToken,
     String? assignee,
-    String? createdBy,
+    List<String>? labels,
     String? milestone,
   }) async {
     try {
@@ -136,9 +136,16 @@ class IssueDataSourceImpl implements IssueDataSource {
       if (direction != null && field != null) {
         variables['orderBy'] = {'direction': direction, 'field': field};
       }
-      if (assignee != null) variables['assignee'] = assignee;
-      if (createdBy != null) variables['createdBy'] = createdBy;
-      if (milestone != null) variables['milestone'] = milestone;
+      if (assignee != null) {
+        (variables['filterBy']! as Map<String, dynamic>)['assignee'] = assignee;
+      }
+      if (labels != null) {
+        (variables['filterBy']! as Map<String, dynamic>)['labels'] = labels;
+      }
+      if (milestone != null) {
+        (variables['filterBy']! as Map<String, dynamic>)['milestone'] =
+            milestone;
+      }
 
       final result = await _client.query(
         QueryOptions(
