@@ -18,36 +18,38 @@ class MilestonesListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        alignment: Alignment.centerLeft,
-        padding: EdgeInsets.symmetric(
-          vertical: 12.sp,
-          horizontal: 16.sp,
-        ),
-        child: Row(
-          children: [
-            Text(
-              milestone.title ?? '',
-              style: AppTypography.style(
-                textSize: TextSize.small,
+    return Material(
+      child: InkWell(
+        onTap: onTap,
+        child: Container(
+          alignment: Alignment.centerLeft,
+          padding: EdgeInsets.symmetric(
+            vertical: 12.sp,
+            horizontal: 16.sp,
+          ),
+          child: Row(
+            children: [
+              Text(
+                milestone.title ?? '',
+                style: AppTypography.style(
+                  textSize: TextSize.small,
+                ),
               ),
-            ),
-            const Spacer(),
-            BlocBuilder<IssuesBloc, IssuesState>(
-              builder: (context, state) {
-                if (milestone.number == state.selectedMilestone?.number) {
-                  return const Icon(
-                    Icons.check,
-                    color: AppColors.green,
-                  );
-                } else {
-                  return const SizedBox();
-                }
-              },
-            )
-          ],
+              const Spacer(),
+              BlocBuilder<IssuesBloc, IssuesState>(
+                builder: (context, state) {
+                  if (milestone.number == state.selectedMilestone?.number) {
+                    return const Icon(
+                      Icons.check,
+                      color: AppColors.green,
+                    );
+                  } else {
+                    return const SizedBox();
+                  }
+                },
+              )
+            ],
+          ),
         ),
       ),
     );

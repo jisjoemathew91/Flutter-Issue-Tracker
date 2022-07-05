@@ -17,7 +17,7 @@ class AssignableUsersList extends StatelessWidget {
     final _bloc = context.read<IssuesBloc>()
       ..add(const FetchAssignableUsersEvent(isInitial: true));
     return ColoredBox(
-      color: AppColors.white,
+      color: Theme.of(context).colorScheme.onSecondary,
       child: SmartRefresher(
         controller: refreshController,
         enablePullUp: true,

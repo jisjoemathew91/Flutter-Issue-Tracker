@@ -19,35 +19,37 @@ class LabelListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        alignment: Alignment.centerLeft,
-        padding: EdgeInsets.symmetric(
-          vertical: 12.sp,
-          horizontal: 16.sp,
-        ),
-        child: Row(
-          children: [
-            LabelChip(label: label),
-            const Spacer(),
-            BlocBuilder<IssuesBloc, IssuesState>(
-              builder: (context, state) {
-                if (IssueUtil.getSelectedLabelIndex(
-                      label,
-                      state.selectedLabels?.nodes ?? <LabelNode>[],
-                    ) >
-                    -1) {
-                  return const Icon(
-                    Icons.check,
-                    color: AppColors.green,
-                  );
-                } else {
-                  return const SizedBox();
-                }
-              },
-            )
-          ],
+    return Material(
+      child: InkWell(
+        onTap: onTap,
+        child: Container(
+          alignment: Alignment.centerLeft,
+          padding: EdgeInsets.symmetric(
+            vertical: 12.sp,
+            horizontal: 16.sp,
+          ),
+          child: Row(
+            children: [
+              LabelChip(label: label),
+              const Spacer(),
+              BlocBuilder<IssuesBloc, IssuesState>(
+                builder: (context, state) {
+                  if (IssueUtil.getSelectedLabelIndex(
+                        label,
+                        state.selectedLabels?.nodes ?? <LabelNode>[],
+                      ) >
+                      -1) {
+                    return const Icon(
+                      Icons.check,
+                      color: AppColors.green,
+                    );
+                  } else {
+                    return const SizedBox();
+                  }
+                },
+              )
+            ],
+          ),
         ),
       ),
     );

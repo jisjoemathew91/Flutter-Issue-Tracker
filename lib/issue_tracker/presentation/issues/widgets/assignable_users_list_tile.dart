@@ -18,57 +18,59 @@ class AssignableUsersListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        alignment: Alignment.centerLeft,
-        padding: EdgeInsets.symmetric(
-          vertical: 12.sp,
-          horizontal: 16.sp,
-        ),
-        child: Row(
-          children: [
-            ClipOval(
-              child: Image.network(
-                height: 32.sp,
-                width: 32.sp,
-                assignableUser.avatarUrl ?? '',
-              ),
-            ),
-            SizedBox(width: 12.sp),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  assignableUser.login ?? '',
-                  style: AppTypography.style(
-                    textSize: TextSize.small,
-                  ),
+    return Material(
+      child: InkWell(
+        onTap: onTap,
+        child: Container(
+          alignment: Alignment.centerLeft,
+          padding: EdgeInsets.symmetric(
+            vertical: 12.sp,
+            horizontal: 16.sp,
+          ),
+          child: Row(
+            children: [
+              ClipOval(
+                child: Image.network(
+                  height: 32.sp,
+                  width: 32.sp,
+                  assignableUser.avatarUrl ?? '',
                 ),
-                Text(
-                  assignableUser.name ?? '',
-                  style: AppTypography.style(
-                    textSize: TextSize.small,
-                    textType: TextType.label,
+              ),
+              SizedBox(width: 12.sp),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    assignableUser.login ?? '',
+                    style: AppTypography.style(
+                      textSize: TextSize.small,
+                    ),
                   ),
-                )
-              ],
-            ),
-            const Spacer(),
-            BlocBuilder<IssuesBloc, IssuesState>(
-              builder: (context, state) {
-                if (assignableUser.login ==
-                    state.selectedAssignableUser?.login) {
-                  return const Icon(
-                    Icons.check,
-                    color: AppColors.green,
-                  );
-                } else {
-                  return const SizedBox();
-                }
-              },
-            )
-          ],
+                  Text(
+                    assignableUser.name ?? '',
+                    style: AppTypography.style(
+                      textSize: TextSize.small,
+                      textType: TextType.label,
+                    ),
+                  )
+                ],
+              ),
+              const Spacer(),
+              BlocBuilder<IssuesBloc, IssuesState>(
+                builder: (context, state) {
+                  if (assignableUser.login ==
+                      state.selectedAssignableUser?.login) {
+                    return const Icon(
+                      Icons.check,
+                      color: AppColors.green,
+                    );
+                  } else {
+                    return const SizedBox();
+                  }
+                },
+              )
+            ],
+          ),
         ),
       ),
     );

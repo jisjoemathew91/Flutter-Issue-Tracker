@@ -105,8 +105,15 @@ class IssuesBloc extends Bloc<IssuesEvent, IssuesState> {
     }, (data) {
       if (!event.isInitial) {
         data.nodes = (state.labels?.nodes ?? []) + (data.nodes ?? []);
+      } else {
+        data.nodes = (state.selectedLabels?.nodes ?? []) + (data.nodes ?? []);
       }
-      emit(state.copyWith(labelsStatus: LabelsStatus.fetched, labels: data));
+      emit(
+        state.copyWith(
+          labelsStatus: LabelsStatus.fetched,
+          labels: IssueUtil.getDistinctLabels(data),
+        ),
+      );
     });
   }
 
@@ -126,11 +133,13 @@ class IssuesBloc extends Bloc<IssuesEvent, IssuesState> {
     }, (data) {
       if (!event.isInitial) {
         data.nodes = (state.assignableUsers?.nodes ?? []) + (data.nodes ?? []);
+      } else if (state.selectedAssignableUser != null) {
+        data.nodes = [state.selectedAssignableUser!] + (data.nodes ?? []);
       }
       emit(
         state.copyWith(
           assignableUsersStatus: AssignableUsersStatus.fetched,
-          assignableUsers: data,
+          assignableUsers: IssueUtil.getDistinctAsignee(data),
         ),
       );
     });
@@ -152,11 +161,13 @@ class IssuesBloc extends Bloc<IssuesEvent, IssuesState> {
     }, (data) {
       if (!event.isInitial) {
         data.nodes = (state.milestones?.nodes ?? []) + (data.nodes ?? []);
+      } else if (state.selectedMilestone != null) {
+        data.nodes = [state.selectedMilestone!] + (data.nodes ?? []);
       }
       emit(
         state.copyWith(
           milestonesStatus: MilestonesStatus.fetched,
-          milestones: data,
+          milestones: IssueUtil.getDistinctMilestone(data),
         ),
       );
     });

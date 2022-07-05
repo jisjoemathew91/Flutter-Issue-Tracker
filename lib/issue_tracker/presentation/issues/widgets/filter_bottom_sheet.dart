@@ -55,7 +55,7 @@ class BottomSheetComponent extends StatelessWidget {
                 [
                   Container(
                     decoration: BoxDecoration(
-                      color: AppColors.white,
+                      color: Theme.of(context).colorScheme.onSecondary,
                       borderRadius: BorderRadius.vertical(
                         top: Radius.circular(8.sp),
                       ),
