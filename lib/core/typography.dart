@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_issue_tracker/constants/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 enum TextSize { large, medium, small }
@@ -110,19 +109,9 @@ class AppTypography {
   static TextStyle style({
     TextType textType = TextType.title,
     TextSize textSize = TextSize.medium,
-    BuildContext? context,
     bool isBold = false,
-    Color? color,
   }) {
-    /// either add color or context
-    assert(
-      (context == null && color != null) || (context != null && color == null),
-      'Either add color or context',
-    );
-    var textColor = color;
-    if (context != null) textColor = AppColors.black;
     return TextStyle(
-      color: textColor,
       fontSize: getFontSize(textType, textSize),
       fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
       fontFamily: 'Roboto',

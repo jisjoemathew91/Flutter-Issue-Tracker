@@ -6,6 +6,10 @@ class TimeUtil {
   static String getTimeInAgoFormat(String? time) {
     if (time == null) return '';
     final createdOn = DateTime.parse(time);
-    return timeago.format(createdOn).replaceAll(' ago', '');
+    final formattedTime = timeago
+        .format(createdOn)
+        .replaceAll('a day', '1 day')
+        .replaceAll(' ago', '');
+    return formattedTime;
   }
 }

@@ -20,18 +20,20 @@ class IssueStatesDialog extends StatelessWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
-            children: availableStates
-                .map(
-                  (st) => FilterListItem(
-                    text: st,
-                    isSelected: st == state.states,
-                    onTap: () {
-                      _bloc.add(UpdateStateEvent(states: st));
-                      Navigator.pop(context);
-                    },
-                  ),
-                )
-                .toList(),
+            children: [
+              ...availableStates
+                  .map(
+                    (st) => FilterListItem(
+                      text: st,
+                      isSelected: st == state.states,
+                      onTap: () {
+                        _bloc.add(UpdateStateEvent(states: st));
+                        Navigator.pop(context);
+                      },
+                    ),
+                  )
+                  .toList()
+            ],
           );
         },
       ),

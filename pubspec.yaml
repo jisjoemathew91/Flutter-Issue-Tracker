@@ -7,6 +7,7 @@ environment:
   sdk: ">=2.17.0 <3.0.0"
 
 dependencies:
+  animated_text_kit: ^4.2.2
   bloc: ^8.0.3
   dartz: ^0.10.1
   equatable: ^2.0.3
@@ -19,6 +20,7 @@ dependencies:
   graphql_flutter: ^5.1.0
   intl: ^0.17.0
   pull_to_refresh: ^2.0.0
+  stacked_themes: ^0.3.8+1
   stream_transform: ^2.0.0
   timeago: ^3.2.2
 

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_issue_tracker/constants/colors.dart';
+import 'package:flutter_issue_tracker/core/typography.dart';
 import 'package:flutter_issue_tracker/issue_tracker/domain/entities/issue_node.dart';
 import 'package:flutter_issue_tracker/issue_tracker/presentation/issues/widgets/label_chip.dart';
 import 'package:flutter_issue_tracker/issue_tracker/presentation/issues/widgets/state_icon.dart';
 import 'package:flutter_issue_tracker/issue_tracker/presentation/utils/time_util.dart';
-import 'package:flutter_issue_tracker/theme/presentation/typography.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class IssueListTile extends StatelessWidget {
@@ -28,10 +27,11 @@ class IssueListTile extends StatelessWidget {
           horizontal: 16.sp,
         ),
         decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surface,
           border: BorderDirectional(
             bottom: BorderSide(
-              color: AppColors.gray,
-              width: 1.sp,
+              width: 0.5.sp,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
           ),
         ),
@@ -52,7 +52,6 @@ class IssueListTile extends StatelessWidget {
                       Text(
                         '${dotenv.env['PROJECT_OWNER']} / ${dotenv.env['PROJECT_NAME']} #${issue.number.toString()}',
                         style: AppTypography.style(
-                          color: AppColors.closedGrey,
                           textType: TextType.body,
                           textSize: TextSize.small,
                         ),
@@ -61,7 +60,6 @@ class IssueListTile extends StatelessWidget {
                       Text(
                         TimeUtil.getTimeInAgoFormat(issue.createdAt),
                         style: AppTypography.style(
-                          color: AppColors.closedGrey,
                           textType: TextType.body,
                           textSize: TextSize.small,
                         ),
@@ -71,7 +69,6 @@ class IssueListTile extends StatelessWidget {
                   Text(
                     issue.title ?? '',
                     style: AppTypography.style(
-                      color: AppColors.black,
                       textSize: TextSize.small,
                       isBold: true,
                     ),

@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_issue_tracker/app/extension/string_extension.dart';
-import 'package:flutter_issue_tracker/app/injection.dart';
 import 'package:flutter_issue_tracker/constants/colors.dart';
+import 'package:flutter_issue_tracker/core/injection.dart';
+import 'package:flutter_issue_tracker/core/typography.dart';
 import 'package:flutter_issue_tracker/issue_tracker/presentation/issues/bloc/issues_bloc.dart';
 import 'package:flutter_issue_tracker/issue_tracker/presentation/issues/widgets/issue_filter_chip.dart';
 import 'package:flutter_issue_tracker/issue_tracker/presentation/issues/widgets/issue_list_tile.dart';
 import 'package:flutter_issue_tracker/issue_tracker/presentation/issues/widgets/issue_states_dialog.dart';
-import 'package:flutter_issue_tracker/theme/presentation/typography.dart';
+import 'package:flutter_issue_tracker/themes/presentation/widget/dark_theme_switch.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -34,9 +35,8 @@ class IssuesPageView extends StatelessWidget {
     final _bloc = context.read<IssuesBloc>()
       ..add(const FetchIssuesEvent(isInitial: true));
     return Scaffold(
-      backgroundColor: AppColors.white,
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
-        backgroundColor: AppColors.white,
         elevation: 1.sp,
         title: Center(
           child: Column(
@@ -46,13 +46,11 @@ class IssuesPageView extends StatelessWidget {
                 style: AppTypography.style(
                   textType: TextType.label,
                   textSize: TextSize.large,
-                  color: AppColors.darkGray,
                 ),
               ),
               Text(
                 'Issues',
                 style: AppTypography.style(
-                  color: AppColors.black,
                   textSize: TextSize.large,
                   isBold: true,
                 ),
@@ -60,13 +58,15 @@ class IssuesPageView extends StatelessWidget {
             ],
           ),
         ),
-        // elevation: ,
+        actions: const [
+          DarkThemeSwitch(),
+        ],
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(50.sp),
           child: Center(
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              padding: EdgeInsets.symmetric(horizontal: 8.sp),
+              padding: EdgeInsets.fromLTRB(8.sp, 0.sp, 8.sp, 4.sp),
               child: Row(
                 children: [
                   BlocBuilder<IssuesBloc, IssuesState>(

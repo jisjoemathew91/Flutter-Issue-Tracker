@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:flutter_issue_tracker/issue_tracker/data/failure.dart';
+import 'package:flutter_issue_tracker/core/failure.dart';
 import 'package:flutter_issue_tracker/issue_tracker/domain/entities/issues.dart';
 import 'package:flutter_issue_tracker/issue_tracker/domain/repository/issue_repository.dart';
 
