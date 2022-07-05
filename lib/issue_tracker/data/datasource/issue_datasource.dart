@@ -125,26 +125,26 @@ class IssueDataSourceImpl implements IssueDataSource {
     String? milestone,
   }) async {
     try {
-      final variables = {
+      final variables = <String, dynamic>{
         'owner': owner,
         'name': name,
         'first': limit,
         'labelFirst': labelLimit,
-        'filterBy': {'states': states}
+        'filterBy': <String, dynamic>{'states': states}
       };
       if (nextToken != null) variables['after'] = nextToken;
       if (direction != null && field != null) {
         variables['orderBy'] = {'direction': direction, 'field': field};
       }
       if (assignee != null) {
-        (variables['filterBy']! as Map<String, dynamic>)['assignee'] = assignee;
+        variables['filterBy']['assignee'] = assignee;
       }
       if (labels != null) {
-        (variables['filterBy']! as Map<String, dynamic>)['labels'] = labels;
+        (variables['filterBy'])
+            .addAll(<String, List<String>>{'labels': labels});
       }
       if (milestone != null) {
-        (variables['filterBy']! as Map<String, dynamic>)['milestone'] =
-            milestone;
+        variables['filterBy']['milestone'] = milestone;
       }
 
       final result = await _client.query(
