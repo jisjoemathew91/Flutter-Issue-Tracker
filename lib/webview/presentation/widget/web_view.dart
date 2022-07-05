@@ -32,6 +32,13 @@ class CustomWebViewBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _bloc = BlocProvider.of<WebViewBloc>(context);
+    const resizeObserver = '''
+    <script>
+          const resizeObserver = new ResizeObserver(entries =>
+          Resize.postMessage("height" + (entries[0].target.clientHeight).toString()) )
+          resizeObserver.observe(document.body)
+        </script>
+    ''';
     final htmlString = '''
     <!DOCTYPE html>
         <head><meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -39,37 +46,52 @@ class CustomWebViewBody extends StatelessWidget {
         </head>
         <body text="${Theme.of(context).textTheme.bodyText2?.color?.toHex()}" >
         $htmlText
-        </body>''';
+        </body>
+        $resizeObserver
+    </html>''';
+
+    final wv = WebView(
+      key: const ValueKey('Webview'),
+      javascriptMode: JavascriptMode.unrestricted,
+      onWebViewCreated: (WebViewController webViewController) {
+        _bloc.webViewController = webViewController;
+        // If [webViewController] is initialised html string will be loaded.
+        _loadHtmlFromString(_bloc.webViewController!, htmlString);
+      },
+      gestureRecognizers: {}..add(
+          const Factory<HorizontalDragGestureRecognizer>(
+            HorizontalDragGestureRecognizer.new,
+          ),
+        ),
+      gestureNavigationEnabled: true,
+      onPageFinished: (v) async {
+        // The clientHeight property returns the viewable
+        // height of an element in pixels,
+        final height =
+            await _bloc.webViewController?.runJavascriptReturningResult(
+          'document.body.clientHeight',
+        );
+        _bloc.add(InitializeHeightEvent(height: height));
+      },
+      javascriptChannels: <JavascriptChannel>{
+        JavascriptChannel(
+          name: 'Resize',
+          onMessageReceived: (JavascriptMessage message) {
+            _bloc.add(
+              InitializeHeightEvent(
+                height: message.message.replaceAll('height', ''),
+              ),
+            );
+          },
+        ),
+      },
+    );
+
     return BlocBuilder<WebViewBloc, WebViewState>(
       builder: (context, state) {
-        // If [webViewController] is initialised html string will be loaded.
-        if (state.webViewController != null) {
-          _loadHtmlFromString(state.webViewController!, htmlString);
-        }
-
         return SizedBox(
           height: state.height,
-          child: WebView(
-            javascriptMode: JavascriptMode.unrestricted,
-            onWebViewCreated: (WebViewController webViewController) {
-              _bloc.add(InitializeWebViewControllerEvent(webViewController));
-            },
-            gestureRecognizers: {}..add(
-                const Factory<HorizontalDragGestureRecognizer>(
-                  HorizontalDragGestureRecognizer.new,
-                ),
-              ),
-            gestureNavigationEnabled: true,
-            onPageFinished: (v) async {
-              // The clientHeight property returns the viewable
-              // height of an element in pixels,
-              final height =
-                  await state.webViewController?.runJavascriptReturningResult(
-                'document.body.clientHeight',
-              );
-              _bloc.add(InitializeHeightEvent(height: height));
-            },
-          ),
+          child: wv,
         );
       },
     );

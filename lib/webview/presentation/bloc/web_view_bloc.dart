@@ -7,16 +7,10 @@ part 'web_view_state.dart';
 
 class WebViewBloc extends Bloc<WebViewEvent, WebViewState> {
   WebViewBloc() : super(const WebViewState()) {
-    on<InitializeWebViewControllerEvent>(_onInitializeWebViewController);
     on<InitializeHeightEvent>(_onInitializeHeight);
   }
 
-  void _onInitializeWebViewController(
-    InitializeWebViewControllerEvent event,
-    Emitter<WebViewState> emit,
-  ) {
-    emit(state.copyWith(webViewController: event.webViewController));
-  }
+  WebViewController? webViewController;
 
   void _onInitializeHeight(
     InitializeHeightEvent event,

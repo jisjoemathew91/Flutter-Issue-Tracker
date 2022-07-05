@@ -12,12 +12,3 @@ class InitializeHeightEvent extends WebViewEvent {
   @override
   List<Object?> get props => [height];
 }
-
-class InitializeWebViewControllerEvent extends WebViewEvent {
-  const InitializeWebViewControllerEvent(this.webViewController);
-
-  final WebViewController webViewController;
-
-  @override
-  List<Object?> get props => [webViewController];
-}
