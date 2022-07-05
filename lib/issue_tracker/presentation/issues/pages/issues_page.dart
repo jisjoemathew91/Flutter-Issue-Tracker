@@ -9,6 +9,7 @@ import 'package:flutter_issue_tracker/core/typography.dart';
 import 'package:flutter_issue_tracker/issue_tracker/presentation/issue_detail/pages/issue_details_page.dart';
 import 'package:flutter_issue_tracker/issue_tracker/presentation/issues/bloc/issues_bloc.dart';
 import 'package:flutter_issue_tracker/issue_tracker/presentation/issues/widgets/filter_bottom_sheet.dart';
+import 'package:flutter_issue_tracker/issue_tracker/presentation/issues/widgets/issue_direction_dialog.dart';
 import 'package:flutter_issue_tracker/issue_tracker/presentation/issues/widgets/issue_filter_chip.dart';
 import 'package:flutter_issue_tracker/issue_tracker/presentation/issues/widgets/issue_list_tile.dart';
 import 'package:flutter_issue_tracker/issue_tracker/presentation/issues/widgets/issue_states_dialog.dart';
@@ -74,6 +75,15 @@ class IssuesPageView extends StatelessWidget {
                 builder: (context, state) {
                   return Row(
                     children: [
+                      if (state.showClearFilter)
+                        IssueFilterChip(
+                          value: 'Clear All',
+                          isHighlighted: true,
+                          showDropDown: false,
+                          icon: Icons.clear_all,
+                          highlightColor: AppColors.red,
+                          onPressed: () => _bloc.add(const ClearFilterEvent()),
+                        ),
                       IssueFilterChip(
                         value: state.states!.capitalizeFirstLetter(),
                         isHighlighted: true,
@@ -90,6 +100,7 @@ class IssuesPageView extends StatelessWidget {
                       IssueFilterChip(
                         value: state.labelChipTitle,
                         isHighlighted: state.highlightLabelChip,
+                        icon: Icons.label_outline,
                         onPressed: () {
                           showMaterialModalBottomSheet<Widget>(
                             backgroundColor: Colors.transparent,
@@ -108,6 +119,7 @@ class IssuesPageView extends StatelessWidget {
                       IssueFilterChip(
                         value: state.assigneeChipTitle,
                         isHighlighted: state.highlightAssigneeChip,
+                        icon: Icons.person_outline,
                         onPressed: () {
                           showMaterialModalBottomSheet<Widget>(
                             backgroundColor: Colors.transparent,
@@ -125,6 +137,7 @@ class IssuesPageView extends StatelessWidget {
                       IssueFilterChip(
                         value: state.milestoneChipTitle,
                         isHighlighted: state.highlightMilestoneChip,
+                        icon: Icons.flag_outlined,
                         onPressed: () {
                           showMaterialModalBottomSheet<Widget>(
                             backgroundColor: Colors.transparent,
@@ -138,6 +151,28 @@ class IssuesPageView extends StatelessWidget {
                             ),
                           );
                         },
+                      ),
+                      SizedBox(
+                        height: 20.sp,
+                        child: VerticalDivider(
+                          width: 3.sp,
+                          thickness: 1.sp,
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
+                      ),
+                      IssueFilterChip(
+                        value: state.directionChipTitle,
+                        isHighlighted: true,
+                        icon: Icons.sort,
+                        onPressed: () => showDialog<IssueStatesDialog>(
+                          context: context,
+                          builder: (context) {
+                            return BlocProvider.value(
+                              value: _bloc,
+                              child: const IssueDirectionDialog(),
+                            );
+                          },
+                        ),
                       ),
                     ],
                   );

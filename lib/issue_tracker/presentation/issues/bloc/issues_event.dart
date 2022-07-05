@@ -83,3 +83,19 @@ class UpdateSelectedMilestonesEvent extends IssuesEvent {
   @override
   List<Object?> get props => [];
 }
+
+class UpdateDirectionEvent extends IssuesEvent {
+  const UpdateDirectionEvent({required this.direction});
+
+  final String direction;
+
+  @override
+  List<Object?> get props => [direction];
+}
+
+class ClearFilterEvent extends IssuesEvent {
+  const ClearFilterEvent();
+
+  @override
+  List<Object?> get props => [];
+}

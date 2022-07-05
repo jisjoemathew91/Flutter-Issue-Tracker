@@ -106,4 +106,9 @@ class IssueUtil {
     }
     return '';
   }
+
+  static String getDirectionNameFromKey(String key) {
+    if (key == 'ASC') return 'Oldest First';
+    return 'Latest First';
+  }
 }

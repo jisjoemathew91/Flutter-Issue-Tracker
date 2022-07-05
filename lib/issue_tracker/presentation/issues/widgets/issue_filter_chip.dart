@@ -10,22 +10,30 @@ class IssueFilterChip extends StatelessWidget {
     required this.value,
     this.isHighlighted = false,
     this.onPressed,
+    this.icon,
+    this.highlightColor,
+    this.showText = true,
+    this.showDropDown = true,
   });
 
   final String value;
   final bool isHighlighted;
   final VoidCallback? onPressed;
+  final IconData? icon;
+  final bool? showText;
+  final bool? showDropDown;
+  final Color? highlightColor;
 
   @override
   Widget build(BuildContext context) {
-    final textColor = isHighlighted ? AppColors.lightBlue : AppColors.darkGray;
+    final textColor = isHighlighted
+        ? highlightColor ?? AppColors.lightBlue
+        : AppColors.darkGray;
     return Container(
       height: 24.sp,
       margin: EdgeInsets.all(6.sp),
       decoration: BoxDecoration(
-        color: isHighlighted
-            ? AppColors.lightBlue.withOpacity(0.2)
-            : null,
+        color: isHighlighted ? textColor.withOpacity(0.2) : null,
         borderRadius: BorderRadius.circular(24.sp),
         border: Border.all(
           color: textColor,
@@ -41,28 +49,30 @@ class IssueFilterChip extends StatelessWidget {
           children: [
             if (isHighlighted) ...[
               Transform.rotate(
-                angle: pi * 1.2,
+                angle: icon != null ? 0 : pi * 1.2,
                 child: Icon(
-                  Icons.label_outline,
+                  icon ?? Icons.label_outline,
                   size: 12.sp,
                   color: textColor,
                 ),
               ),
               SizedBox(width: 4.sp),
             ],
-            Text(
-              value,
-              style: TextStyle(
-                color: textColor,
-                fontSize: 12.sp,
+            if (showText!)
+              Text(
+                value,
+                style: TextStyle(
+                  color: textColor,
+                  fontSize: 12.sp,
+                ),
               ),
-            ),
             SizedBox(width: 6.sp),
-            Icon(
-              Icons.keyboard_arrow_down_sharp,
-              size: 12.sp,
-              color: textColor,
-            ),
+            if (showDropDown!)
+              Icon(
+                Icons.keyboard_arrow_down_sharp,
+                size: 12.sp,
+                color: textColor,
+              ),
           ],
         ),
       ),

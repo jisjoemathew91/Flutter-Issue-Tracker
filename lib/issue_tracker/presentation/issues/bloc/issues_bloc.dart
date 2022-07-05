@@ -52,6 +52,8 @@ class IssuesBloc extends Bloc<IssuesEvent, IssuesState> {
     on<UpdateSelectedAssignableUsersEvent>(_onUpdateSelectedAssignableUsers);
     on<UpdateSelectedMilestonesEvent>(_onUpdateSelectedMilestone);
     on<UpdateStateEvent>(_onUpdateState);
+    on<UpdateDirectionEvent>(_onUpdateDirection);
+    on<ClearFilterEvent>(_onClearFilter);
     add(const FetchIssuesEvent(isInitial: true));
   }
 
@@ -71,7 +73,7 @@ class IssuesBloc extends Bloc<IssuesEvent, IssuesState> {
       limit: 20,
       labelLimit: 30,
       states: state.states!,
-      direction: 'DESC',
+      direction: state.direction,
       field: 'CREATED_AT',
       labels: state.queryLabels,
       milestone: state.selectedMilestone?.number?.toString(),
@@ -183,6 +185,15 @@ class IssuesBloc extends Bloc<IssuesEvent, IssuesState> {
     add(const FetchIssuesEvent(isInitial: true));
   }
 
+  void _onUpdateDirection(
+    UpdateDirectionEvent event,
+    Emitter<IssuesState> emit,
+  ) {
+    if (state.direction == event.direction) return;
+    emit(state.copyWith(direction: event.direction));
+    add(const FetchIssuesEvent(isInitial: true));
+  }
+
   void _onUpdateSelectedLabels(
     UpdateSelectedLabelsEvent event,
     Emitter<IssuesState> emit,
@@ -241,6 +252,22 @@ class IssuesBloc extends Bloc<IssuesEvent, IssuesState> {
     } else {
       emit(state.copyWith(selectedMilestone: event.milestone));
     }
+    add(const FetchIssuesEvent(isInitial: true));
+  }
+
+  void _onClearFilter(
+    ClearFilterEvent event,
+    Emitter<IssuesState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        states: 'OPEN',
+        direction: 'DESC',
+        selectedLabels: Labels(),
+        clearMilestone: true,
+        clearAssignableUser: true,
+      ),
+    );
     add(const FetchIssuesEvent(isInitial: true));
   }
 }
