@@ -51,7 +51,7 @@ class IssueRepositoryImpl implements IssueRepository {
     String? field,
     String? nextToken,
     String? assignee,
-    String? createdBy,
+    List<String>? labels,
     String? milestone,
   }) async {
     try {
@@ -65,7 +65,7 @@ class IssueRepositoryImpl implements IssueRepository {
         field: field,
         nextToken: nextToken,
         assignee: assignee,
-        createdBy: createdBy,
+        labels: labels,
         milestone: milestone,
       );
       final entity = model.toEntity();

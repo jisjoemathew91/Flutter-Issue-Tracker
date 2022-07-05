@@ -1,11 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_issue_tracker/app/routes.dart';
+import 'package:flutter_issue_tracker/connectivity/presentation/bloc/connectivity_bloc.dart';
 import 'package:flutter_issue_tracker/core/app_themes.dart';
+import 'package:flutter_issue_tracker/core/injection.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:stacked_themes/stacked_themes.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => locator<ConnectivityBloc>(),
+      child: const AppView(),
+    );
+  }
+}
+
+class AppView extends StatelessWidget {
+  const AppView({super.key});
 
   @override
   Widget build(BuildContext context) {
