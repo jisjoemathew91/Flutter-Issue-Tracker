@@ -18,6 +18,6 @@ class WebViewBloc extends Bloc<WebViewEvent, WebViewState> {
   ) {
     final stringHeight = (event.height ?? state.height) as String?;
     final height = double.parse(stringHeight!);
-    emit(state.copyWith(height: height));
+    emit(state.copyWith(height: height + 100));
   }
 }

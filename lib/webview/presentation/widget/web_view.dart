@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_issue_tracker/app/extension/color_extension.dart';
 import 'package:flutter_issue_tracker/webview/presentation/bloc/web_view_bloc.dart';
+import 'package:flutter_issue_tracker/webview/presentation/widget/web_view_dialog.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class CustomWebView extends StatelessWidget {
@@ -47,11 +48,9 @@ class CustomWebViewBody extends StatelessWidget {
         <body text="${Theme.of(context).textTheme.bodyText2?.color?.toHex()}" >
         $htmlText
         </body>
-        $resizeObserver
-    </html>''';
+        $resizeObserver''';
 
     final wv = WebView(
-      key: const ValueKey('Webview'),
       javascriptMode: JavascriptMode.unrestricted,
       onWebViewCreated: (WebViewController webViewController) {
         _bloc.webViewController = webViewController;
@@ -84,6 +83,18 @@ class CustomWebViewBody extends StatelessWidget {
             );
           },
         ),
+      },
+      navigationDelegate: (NavigationRequest request) {
+        if (request.url.startsWith('http')) {
+          showDialog<CustomWebViewDialog>(
+            context: context,
+            builder: (context) {
+              return CustomWebViewDialog(url: request.url);
+            },
+          );
+          return NavigationDecision.prevent;
+        }
+        return NavigationDecision.navigate;
       },
     );
 
