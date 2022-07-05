@@ -1,4 +1,6 @@
+import 'package:data_connection_checker_nulls/data_connection_checker_nulls.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_issue_tracker/connectivity/presentation/bloc/connectivity_bloc.dart';
 import 'package:flutter_issue_tracker/issue_tracker/data/datasource/issue_datasource.dart';
 import 'package:flutter_issue_tracker/issue_tracker/data/repository/issue_repository_impl.dart';
 import 'package:flutter_issue_tracker/issue_tracker/domain/repository/issue_repository.dart';
@@ -15,9 +17,25 @@ final locator = GetIt.I;
 Future<void> init() async {
   locator
 
+  // external
+    ..registerSingleton(ThemeService.getInstance())
+    ..registerLazySingleton<GraphQLClient>(
+          () => GraphQLClient(
+        link: AuthLink(
+          getToken: () => 'Bearer ${dotenv.env['PERSONAL_ACCESS_TOKEN']}',
+        ).concat(HttpLink('${dotenv.env['API_URL']}')),
+
+        /// The default store is the InMemoryStore,
+        /// which does NOT persist data to disk
+        cache: GraphQLCache(store: HiveStore()),
+      ),
+    )
+    ..registerSingleton(DataConnectionChecker())
+
     // bloc
     ..registerFactory(() => IssuesBloc(locator()))
     ..registerFactory(() => ThemeBloc(locator()))
+    ..registerSingleton(ConnectivityBloc(locator()))
 
     // usecase
     ..registerLazySingleton(() => GetIssues(locator()))
@@ -31,19 +49,5 @@ Future<void> init() async {
     // data source
     ..registerLazySingleton<IssueDataSource>(
       () => IssueDataSourceImpl(locator()),
-    )
-
-    // external
-    ..registerSingleton(ThemeService.getInstance())
-    ..registerLazySingleton<GraphQLClient>(
-      () => GraphQLClient(
-        link: AuthLink(
-          getToken: () => 'Bearer ${dotenv.env['PERSONAL_ACCESS_TOKEN']}',
-        ).concat(HttpLink('${dotenv.env['API_URL']}')),
-
-        /// The default store is the InMemoryStore,
-        /// which does NOT persist data to disk
-        cache: GraphQLCache(store: HiveStore()),
-      ),
     );
 }

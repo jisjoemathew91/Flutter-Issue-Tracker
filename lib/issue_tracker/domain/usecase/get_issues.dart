@@ -19,7 +19,7 @@ class GetIssues {
     String? field,
     String? nextToken,
     String? assignee,
-    String? createdBy,
+    List<String>? labels,
     String? milestone,
   }) {
     return repository.getIssues(
@@ -32,7 +32,7 @@ class GetIssues {
       field: field,
       nextToken: nextToken,
       assignee: assignee,
-      createdBy: createdBy,
+      labels: labels,
       milestone: milestone,
     );
   }
