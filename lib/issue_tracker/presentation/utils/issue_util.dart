@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:dartz/dartz.dart';
 import 'package:flutter_issue_tracker/constants/colors.dart';
+import 'package:flutter_issue_tracker/issue_tracker/domain/entities/label_node.dart';
 
 /// Describes issue states
 enum IssuesStates {
@@ -39,5 +40,15 @@ class IssueUtil {
           AppColors.closedGrey,
         );
     }
+  }
+
+  static int getSelectedLabelIndex(
+    LabelNode label,
+    List<LabelNode> selectedLabels,
+  ) {
+    final index = selectedLabels.indexWhere(
+      (sn) => sn.name == label.name,
+    );
+    return index;
   }
 }

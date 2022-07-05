@@ -6,11 +6,13 @@ import 'package:flutter_issue_tracker/constants/colors.dart';
 import 'package:flutter_issue_tracker/core/injection.dart';
 import 'package:flutter_issue_tracker/core/typography.dart';
 import 'package:flutter_issue_tracker/issue_tracker/presentation/issues/bloc/issues_bloc.dart';
+import 'package:flutter_issue_tracker/issue_tracker/presentation/issues/widgets/filter_bottom_sheet.dart';
 import 'package:flutter_issue_tracker/issue_tracker/presentation/issues/widgets/issue_filter_chip.dart';
 import 'package:flutter_issue_tracker/issue_tracker/presentation/issues/widgets/issue_list_tile.dart';
 import 'package:flutter_issue_tracker/issue_tracker/presentation/issues/widgets/issue_states_dialog.dart';
 import 'package:flutter_issue_tracker/themes/presentation/widget/dark_theme_switch.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class IssuesPage extends StatelessWidget {
@@ -67,11 +69,11 @@ class IssuesPageView extends StatelessWidget {
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               padding: EdgeInsets.fromLTRB(8.sp, 0.sp, 8.sp, 4.sp),
-              child: Row(
-                children: [
-                  BlocBuilder<IssuesBloc, IssuesState>(
-                    builder: (context, state) {
-                      return IssueFilterChip(
+              child: BlocBuilder<IssuesBloc, IssuesState>(
+                builder: (context, state) {
+                  return Row(
+                    children: [
+                      IssueFilterChip(
                         value: state.states!.capitalizeFirstofEach(),
                         isHighlighted: true,
                         onPressed: () => showDialog<IssueStatesDialog>(
@@ -83,26 +85,62 @@ class IssuesPageView extends StatelessWidget {
                             );
                           },
                         ),
-                      );
-                    },
-                  ),
-                  IssueFilterChip(
-                    value: 'Label',
-                    onPressed: () {},
-                  ),
-                  IssueFilterChip(
-                    value: 'Author',
-                    onPressed: () {},
-                  ),
-                  IssueFilterChip(
-                    value: 'Assignee',
-                    onPressed: () {},
-                  ),
-                  IssueFilterChip(
-                    value: 'Project',
-                    onPressed: () {},
-                  ),
-                ],
+                      ),
+                      IssueFilterChip(
+                        value: state.labelChipTitle,
+                        isHighlighted: state.highlightLabelChip,
+                        onPressed: () {
+                          showMaterialModalBottomSheet<Widget>(
+                            backgroundColor: Colors.transparent,
+                            expand: true,
+                            enableDrag: false,
+                            context: context,
+                            builder: (context) => BlocProvider.value(
+                              value: _bloc,
+                              child: BottomSheetComponent(
+                                type: BottomSheetType.label,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                      IssueFilterChip(
+                        value: state.assigneeChipTitle,
+                        isHighlighted: state.highlightAssigneeChip,
+                        onPressed: () {
+                          showMaterialModalBottomSheet<Widget>(
+                            backgroundColor: Colors.transparent,
+                            expand: true,
+                            context: context,
+                            builder: (context) => BlocProvider.value(
+                              value: _bloc,
+                              child: BottomSheetComponent(
+                                type: BottomSheetType.assignee,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                      IssueFilterChip(
+                        value: state.milestoneChipTitle,
+                        isHighlighted: state.highlightMilestoneChip,
+                        onPressed: () {
+                          showMaterialModalBottomSheet<Widget>(
+                            backgroundColor: Colors.transparent,
+                            expand: true,
+                            context: context,
+                            builder: (context) => BlocProvider.value(
+                              value: _bloc,
+                              child: BottomSheetComponent(
+                                type: BottomSheetType.milestone,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  );
+                },
               ),
             ),
           ),
@@ -120,7 +158,7 @@ class IssuesPageView extends StatelessWidget {
                 [
                   BlocConsumer<IssuesBloc, IssuesState>(
                     listener: (context, state) {
-                      if (state.status == IssuesStatus.fetched) {
+                      if (state.issuesStatus == IssuesStatus.fetched) {
                         // Removes loading and refresh indicator
                         // when fetch issue completes
                         _refreshController
@@ -128,7 +166,7 @@ class IssuesPageView extends StatelessWidget {
                           ..loadComplete();
                       }
 
-                      if (state.status == IssuesStatus.error) {
+                      if (state.issuesStatus == IssuesStatus.error) {
                         // Removes loading and refresh indicator
                         // when fetch issue fails
                         _refreshController
@@ -136,7 +174,7 @@ class IssuesPageView extends StatelessWidget {
                           ..loadFailed();
                       }
 
-                      if (state.status == IssuesStatus.fetched &&
+                      if (state.issuesStatus == IssuesStatus.fetched &&
                           !state.hasMoreIssues) {
                         // Stops pagination and shows,
                         // no more issue is there to load
@@ -145,7 +183,7 @@ class IssuesPageView extends StatelessWidget {
                     },
                     builder: (context, state) {
                       // Initial loading when fetching issues
-                      if (state.status == null) {
+                      if (state.issuesStatus == null) {
                         return Center(
                           child: Padding(
                             padding: EdgeInsets.only(top: 20.sp),
@@ -157,7 +195,7 @@ class IssuesPageView extends StatelessWidget {
                       }
 
                       // Failure view when there is no data
-                      if (state.status == IssuesStatus.error &&
+                      if (state.issuesStatus == IssuesStatus.error &&
                           state.issues == null) {
                         return Center(
                           child: Padding(

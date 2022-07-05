@@ -4,8 +4,11 @@ import 'package:flutter_issue_tracker/connectivity/presentation/bloc/connectivit
 import 'package:flutter_issue_tracker/issue_tracker/data/datasource/issue_datasource.dart';
 import 'package:flutter_issue_tracker/issue_tracker/data/repository/issue_repository_impl.dart';
 import 'package:flutter_issue_tracker/issue_tracker/domain/repository/issue_repository.dart';
+import 'package:flutter_issue_tracker/issue_tracker/domain/usecase/get_assignable_users.dart';
 import 'package:flutter_issue_tracker/issue_tracker/domain/usecase/get_issue_detail.dart';
 import 'package:flutter_issue_tracker/issue_tracker/domain/usecase/get_issues.dart';
+import 'package:flutter_issue_tracker/issue_tracker/domain/usecase/get_labels.dart';
+import 'package:flutter_issue_tracker/issue_tracker/domain/usecase/get_milestones.dart';
 import 'package:flutter_issue_tracker/issue_tracker/presentation/issues/bloc/issues_bloc.dart';
 import 'package:flutter_issue_tracker/themes/presentation/bloc/theme_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -17,10 +20,10 @@ final locator = GetIt.I;
 Future<void> init() async {
   locator
 
-  // external
+    // external
     ..registerSingleton(ThemeService.getInstance())
     ..registerLazySingleton<GraphQLClient>(
-          () => GraphQLClient(
+      () => GraphQLClient(
         link: AuthLink(
           getToken: () => 'Bearer ${dotenv.env['PERSONAL_ACCESS_TOKEN']}',
         ).concat(HttpLink('${dotenv.env['API_URL']}')),
@@ -33,12 +36,22 @@ Future<void> init() async {
     ..registerSingleton(DataConnectionChecker())
 
     // bloc
-    ..registerFactory(() => IssuesBloc(locator()))
+    ..registerFactory(
+      () => IssuesBloc(
+        locator(),
+        locator(),
+        locator(),
+        locator(),
+      ),
+    )
     ..registerFactory(() => ThemeBloc(locator()))
     ..registerSingleton(ConnectivityBloc(locator()))
 
     // usecase
     ..registerLazySingleton(() => GetIssues(locator()))
+    ..registerLazySingleton(() => GetLabels(locator()))
+    ..registerLazySingleton(() => GetAssignableUsers(locator()))
+    ..registerLazySingleton(() => GetMilestones(locator()))
     ..registerLazySingleton(() => GetIssueDetail(locator()))
 
     // repository
