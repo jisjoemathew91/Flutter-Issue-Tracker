@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:dartz/dartz.dart';
+import 'package:flutter_issue_tracker/app/extension/string_extension.dart';
 import 'package:flutter_issue_tracker/constants/colors.dart';
 import 'package:flutter_issue_tracker/issue_tracker/domain/entities/assignable_user_node.dart';
 import 'package:flutter_issue_tracker/issue_tracker/domain/entities/assignable_users.dart';
@@ -90,5 +91,19 @@ class IssueUtil {
       }
     }
     return users..nodes = distinctNodes;
+  }
+
+  static String getFormattedAuthorAssociation(String? association) {
+    if ([
+      'MEMBER',
+      'OWNER',
+      'MANNEQUIN',
+      'CONTRIBUTOR',
+      'FIRST_TIME_CONTRIBUTOR',
+      'FIRST_TIMER'
+    ].contains(association)) {
+      return association!.removeUnderscore().capitalizeFirstLetter();
+    }
+    return '';
   }
 }

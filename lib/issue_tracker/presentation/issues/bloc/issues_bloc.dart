@@ -33,25 +33,26 @@ class IssuesBloc extends Bloc<IssuesEvent, IssuesState> {
     this._getMilestones,
   ) : super(const IssuesState()) {
     on<FetchIssuesEvent>(
-      onFetchIssues,
+      _onFetchIssues,
       transformer: debounce(_duration),
     );
     on<FetchLabelsEvent>(
-      onFetchLabels,
+      _onFetchLabels,
       transformer: debounce(_duration),
     );
     on<FetchAssignableUsersEvent>(
-      onFetchAssignableUsers,
+      _onFetchAssignableUsers,
       transformer: debounce(_duration),
     );
     on<FetchMilestonesEvent>(
-      onFetchMilestones,
+      _onFetchMilestones,
       transformer: debounce(_duration),
     );
-    on<UpdateSelectedLabelsEvent>(onUpdateSelectedLabels);
-    on<UpdateSelectedAssignableUsersEvent>(onUpdateSelectedAssignableUsers);
-    on<UpdateSelectedMilestonesEvent>(onUpdateSelectedMilestone);
-    on<UpdateStateEvent>(onUpdateState);
+    on<UpdateSelectedLabelsEvent>(_onUpdateSelectedLabels);
+    on<UpdateSelectedAssignableUsersEvent>(_onUpdateSelectedAssignableUsers);
+    on<UpdateSelectedMilestonesEvent>(_onUpdateSelectedMilestone);
+    on<UpdateStateEvent>(_onUpdateState);
+    add(const FetchIssuesEvent(isInitial: true));
   }
 
   final GetIssues _getIssues;
@@ -59,7 +60,7 @@ class IssuesBloc extends Bloc<IssuesEvent, IssuesState> {
   final GetAssignableUsers _getAssignableUsers;
   final GetMilestones _getMilestones;
 
-  Future<void> onFetchIssues(
+  Future<void> _onFetchIssues(
     FetchIssuesEvent event,
     Emitter<IssuesState> emit,
   ) async {
@@ -87,7 +88,7 @@ class IssuesBloc extends Bloc<IssuesEvent, IssuesState> {
     });
   }
 
-  Future<void> onFetchLabels(
+  Future<void> _onFetchLabels(
     FetchLabelsEvent event,
     Emitter<IssuesState> emit,
   ) async {
@@ -117,7 +118,7 @@ class IssuesBloc extends Bloc<IssuesEvent, IssuesState> {
     });
   }
 
-  Future<void> onFetchAssignableUsers(
+  Future<void> _onFetchAssignableUsers(
     FetchAssignableUsersEvent event,
     Emitter<IssuesState> emit,
   ) async {
@@ -145,7 +146,7 @@ class IssuesBloc extends Bloc<IssuesEvent, IssuesState> {
     });
   }
 
-  Future<void> onFetchMilestones(
+  Future<void> _onFetchMilestones(
     FetchMilestonesEvent event,
     Emitter<IssuesState> emit,
   ) async {
@@ -173,7 +174,7 @@ class IssuesBloc extends Bloc<IssuesEvent, IssuesState> {
     });
   }
 
-  void onUpdateState(
+  void _onUpdateState(
     UpdateStateEvent event,
     Emitter<IssuesState> emit,
   ) {
@@ -182,7 +183,7 @@ class IssuesBloc extends Bloc<IssuesEvent, IssuesState> {
     add(const FetchIssuesEvent(isInitial: true));
   }
 
-  void onUpdateSelectedLabels(
+  void _onUpdateSelectedLabels(
     UpdateSelectedLabelsEvent event,
     Emitter<IssuesState> emit,
   ) {
@@ -212,7 +213,7 @@ class IssuesBloc extends Bloc<IssuesEvent, IssuesState> {
     add(const FetchIssuesEvent(isInitial: true));
   }
 
-  void onUpdateSelectedAssignableUsers(
+  void _onUpdateSelectedAssignableUsers(
     UpdateSelectedAssignableUsersEvent event,
     Emitter<IssuesState> emit,
   ) {
@@ -228,7 +229,7 @@ class IssuesBloc extends Bloc<IssuesEvent, IssuesState> {
     add(const FetchIssuesEvent(isInitial: true));
   }
 
-  void onUpdateSelectedMilestone(
+  void _onUpdateSelectedMilestone(
     UpdateSelectedMilestonesEvent event,
     Emitter<IssuesState> emit,
   ) {

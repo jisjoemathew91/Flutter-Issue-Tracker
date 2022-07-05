@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_issue_tracker/app/extension/string_extension.dart';
+import 'package:flutter_issue_tracker/app/routes.dart';
 import 'package:flutter_issue_tracker/constants/colors.dart';
 import 'package:flutter_issue_tracker/core/injection.dart';
 import 'package:flutter_issue_tracker/core/typography.dart';
+import 'package:flutter_issue_tracker/issue_tracker/presentation/issue_detail/pages/issue_details_page.dart';
 import 'package:flutter_issue_tracker/issue_tracker/presentation/issues/bloc/issues_bloc.dart';
 import 'package:flutter_issue_tracker/issue_tracker/presentation/issues/widgets/filter_bottom_sheet.dart';
 import 'package:flutter_issue_tracker/issue_tracker/presentation/issues/widgets/issue_filter_chip.dart';
@@ -34,8 +36,7 @@ class IssuesPageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _bloc = context.read<IssuesBloc>()
-      ..add(const FetchIssuesEvent(isInitial: true));
+    final _bloc = context.read<IssuesBloc>();
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
@@ -74,7 +75,7 @@ class IssuesPageView extends StatelessWidget {
                   return Row(
                     children: [
                       IssueFilterChip(
-                        value: state.states!.capitalizeFirstofEach(),
+                        value: state.states!.capitalizeFirstLetter(),
                         isHighlighted: true,
                         onPressed: () => showDialog<IssueStatesDialog>(
                           context: context,
@@ -214,7 +215,15 @@ class IssuesPageView extends StatelessWidget {
                                 (issue) {
                                   return IssueListTile(
                                     issue: issue,
-                                    onTap: () {},
+                                    onTap: () {
+                                      Navigator.pushNamed(
+                                        context,
+                                        AppPageRoutes.issueDetailPage,
+                                        arguments: IssueDetailsPageArguments(
+                                          issue.number,
+                                        ),
+                                      );
+                                    },
                                   );
                                 },
                               ).toList() ??

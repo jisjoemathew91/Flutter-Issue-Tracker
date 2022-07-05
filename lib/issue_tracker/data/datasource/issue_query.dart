@@ -52,6 +52,7 @@ query IssueDetailQuery($owner: String!
       id
       number
       title
+      authorAssociation
       author {
         avatarUrl
         login

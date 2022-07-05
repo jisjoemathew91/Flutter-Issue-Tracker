@@ -9,6 +9,7 @@ import 'package:flutter_issue_tracker/issue_tracker/domain/usecase/get_issue_det
 import 'package:flutter_issue_tracker/issue_tracker/domain/usecase/get_issues.dart';
 import 'package:flutter_issue_tracker/issue_tracker/domain/usecase/get_labels.dart';
 import 'package:flutter_issue_tracker/issue_tracker/domain/usecase/get_milestones.dart';
+import 'package:flutter_issue_tracker/issue_tracker/presentation/issue_detail/bloc/issue_details_bloc.dart';
 import 'package:flutter_issue_tracker/issue_tracker/presentation/issues/bloc/issues_bloc.dart';
 import 'package:flutter_issue_tracker/themes/presentation/bloc/theme_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -44,6 +45,7 @@ Future<void> init() async {
         locator(),
       ),
     )
+    ..registerFactory(() => IssueDetailsBloc(locator()))
     ..registerFactory(() => ThemeBloc(locator()))
     ..registerSingleton(ConnectivityBloc(locator()))
 
