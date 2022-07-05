@@ -7,6 +7,7 @@ import 'package:flutter_issue_tracker/core/injection.dart';
 import 'package:flutter_issue_tracker/issue_tracker/presentation/issue_detail/bloc/issue_details_bloc.dart';
 import 'package:flutter_issue_tracker/issue_tracker/presentation/issue_detail/widgets/issue_header.dart';
 import 'package:flutter_issue_tracker/issue_tracker/presentation/issue_detail/widgets/user_profile.dart';
+import 'package:flutter_issue_tracker/themes/presentation/widget/dark_theme_switch.dart';
 import 'package:flutter_issue_tracker/webview/presentation/widget/web_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -52,6 +53,9 @@ class IssueDetailsPageView extends StatelessWidget {
           ),
           onPressed: () => Navigator.pop(context),
         ),
+        actions: const [
+          DarkThemeSwitch(),
+        ],
       ),
       body: SafeArea(
         child: RefreshIndicator(

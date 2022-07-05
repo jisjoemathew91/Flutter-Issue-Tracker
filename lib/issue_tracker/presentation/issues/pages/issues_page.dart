@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -46,10 +49,13 @@ class IssuesPageView extends StatelessWidget {
           child: Column(
             children: [
               Text(
-                dotenv.env['PROJECT_NAME']!,
+                '#${dotenv.env['PROJECT_NAME']!}',
                 style: AppTypography.style(
                   textType: TextType.label,
                   textSize: TextSize.large,
+                ).copyWith(
+                  color:
+                      Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
                 ),
               ),
               Text(
@@ -185,6 +191,18 @@ class IssuesPageView extends StatelessWidget {
       body: SmartRefresher(
         controller: _refreshController,
         enablePullUp: true,
+        footer: ClassicFooter(
+          loadingIcon: Platform.isIOS
+              ? const CupertinoActivityIndicator()
+              : SizedBox(
+                  height: 20.sp,
+                  width: 20.sp,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2.sp,
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
+                ),
+        ),
         onRefresh: () => _bloc.add(const FetchIssuesEvent(isInitial: true)),
         onLoading: () => _bloc.add(const FetchIssuesEvent()),
         child: CustomScrollView(

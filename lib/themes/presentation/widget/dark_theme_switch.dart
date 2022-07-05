@@ -37,17 +37,14 @@ class DarkThemeSwitchView extends StatelessWidget {
             child: SizedBox(
               width: 20.sp,
               height: 20.sp,
-              child: state.isDarkMode
-                  ? Image.asset(
-                      'assets/icon/ic_moon.png',
-                      color: AppColors.white,
-                      fit: BoxFit.contain,
-                    )
-                  : Image.asset(
-                      'assets/icon/ic_sun.png',
-                      color: AppColors.black,
-                      fit: BoxFit.contain,
-                    ),
+              child: Image.asset(
+                Theme.of(context).colorScheme.onSurface.value ==
+                        AppColors.white.value
+                    ? 'assets/icon/ic_moon.png'
+                    : 'assets/icon/ic_sun.png',
+                color: Theme.of(context).colorScheme.onSurface,
+                fit: BoxFit.contain,
+              ),
             ),
           ),
         );

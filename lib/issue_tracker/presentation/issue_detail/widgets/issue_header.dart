@@ -21,6 +21,7 @@ class IssueHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: 1.sw,
       padding: EdgeInsets.all(8.sp),
       decoration: BoxDecoration(
         border: Border.all(
