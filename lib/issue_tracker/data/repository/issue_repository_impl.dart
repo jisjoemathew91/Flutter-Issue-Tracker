@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_issue_tracker/core/failure.dart';
-import 'package:flutter_issue_tracker/issue_tracker/data/datasource/issue_datasource.dart';
+import 'package:flutter_issue_tracker/issue_tracker/data/datasource/local/issue_local_datasource.dart';
+import 'package:flutter_issue_tracker/issue_tracker/data/datasource/remote/issue_remote_datasource.dart';
 import 'package:flutter_issue_tracker/issue_tracker/domain/entities/assignable_users.dart';
 import 'package:flutter_issue_tracker/issue_tracker/domain/entities/issue_node.dart';
 import 'package:flutter_issue_tracker/issue_tracker/domain/entities/issues.dart';
@@ -11,9 +12,13 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 
 /// [IssueRepository] implementation class
 class IssueRepositoryImpl implements IssueRepository {
-  IssueRepositoryImpl(this._issueDataSource);
+  IssueRepositoryImpl(
+    this._issueRemoteDataSource,
+    this._issueLocalDataSource,
+  );
 
-  final IssueDataSource _issueDataSource;
+  final IssueRemoteDataSource _issueRemoteDataSource;
+  final IssueLocalDataSource _issueLocalDataSource;
 
   @override
   Future<Either<Failure, IssueNode>> getIssueDetails({
@@ -22,7 +27,7 @@ class IssueRepositoryImpl implements IssueRepository {
     required int number,
   }) async {
     try {
-      final model = await _issueDataSource.getIssueDetails(
+      final model = await _issueRemoteDataSource.getIssueDetails(
         owner: owner,
         name: name,
         number: number,
@@ -55,7 +60,7 @@ class IssueRepositoryImpl implements IssueRepository {
     String? milestone,
   }) async {
     try {
-      final model = await _issueDataSource.getIssues(
+      final model = await _issueRemoteDataSource.getIssues(
         owner: owner,
         name: name,
         limit: limit,
@@ -89,7 +94,7 @@ class IssueRepositoryImpl implements IssueRepository {
     String? nextToken,
   }) async {
     try {
-      final model = await _issueDataSource.getAssignableUsers(
+      final model = await _issueRemoteDataSource.getAssignableUsers(
         owner: owner,
         name: name,
         limit: limit,
@@ -118,7 +123,7 @@ class IssueRepositoryImpl implements IssueRepository {
     String? direction,
   }) async {
     try {
-      final model = await _issueDataSource.getLabels(
+      final model = await _issueRemoteDataSource.getLabels(
         owner: owner,
         name: name,
         limit: limit,
@@ -147,7 +152,7 @@ class IssueRepositoryImpl implements IssueRepository {
     String? nextToken,
   }) async {
     try {
-      final model = await _issueDataSource.getMilestones(
+      final model = await _issueRemoteDataSource.getMilestones(
         owner: owner,
         name: name,
         limit: limit,
@@ -162,6 +167,32 @@ class IssueRepositoryImpl implements IssueRepository {
     } on ContextReadException {
       return const Left(
         ServerFailure('Request failed! Server failed to pass the data'),
+      );
+    }
+  }
+
+  @override
+  Either<Failure, List<String>> getOpenedIssues() {
+    try {
+      final result = _issueLocalDataSource.getOpenedIssues();
+      return Right(result);
+    } on Exception {
+      return const Left(
+        ReadCacheFailure('Permission denied! Failed to read data'),
+      );
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> setIssueOpened({
+    required List<String> numbers,
+  }) async {
+    try {
+      final result = await _issueLocalDataSource.setIssueOpened(numbers);
+      return Right(result);
+    } on Exception {
+      return const Left(
+        ReadCacheFailure('Permission denied! Failed to write data'),
       );
     }
   }

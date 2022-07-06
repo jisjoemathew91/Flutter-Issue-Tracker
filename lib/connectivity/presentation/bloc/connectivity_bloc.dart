@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:data_connection_checker_nulls/data_connection_checker_nulls.dart';
 import 'package:equatable/equatable.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_issue_tracker/core/helper/toast_helper.dart';
 
 part 'connectivity_event.dart';
 
@@ -22,19 +22,11 @@ class ConnectivityBloc extends Bloc<ConnectivityEvent, ConnectivityState> {
   void _onListenConnection(ListenConnectionEvent event, Emitter emit) {
     _subscription = _dataConnectionChecker.onStatusChange.listen((status) {
       if (status == DataConnectionStatus.connected) {
-        _showToast('You are online.');
+        ToastHelper.showShortToast('You are online.');
       } else if (status == DataConnectionStatus.disconnected) {
-        _showToast('You are offline!');
+        ToastHelper.showShortToast('You are offline!');
       }
     });
-  }
-
-  void _showToast(String msg) {
-    Fluttertoast.showToast(
-      msg: msg,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-    );
   }
 
   @override

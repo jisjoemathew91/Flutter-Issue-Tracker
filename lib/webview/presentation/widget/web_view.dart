@@ -4,8 +4,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_issue_tracker/app/extension/color_extension.dart';
+import 'package:flutter_issue_tracker/core/extension/color_extension.dart';
+import 'package:flutter_issue_tracker/core/extension/string_extension.dart';
 import 'package:flutter_issue_tracker/webview/presentation/bloc/web_view_bloc.dart';
+import 'package:flutter_issue_tracker/webview/presentation/util/html_util.dart';
 import 'package:flutter_issue_tracker/webview/presentation/widget/web_view_dialog.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -33,41 +35,25 @@ class CustomWebViewBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _bloc = BlocProvider.of<WebViewBloc>(context);
-    const resizeObserver = '''
-    <script>
-          const resizeObserver = new ResizeObserver(entries =>
-          Resize.postMessage("height" + (entries[0].target.clientHeight).toString()) )
-          resizeObserver.observe(document.body)
-        </script>
-    ''';
 
     final htmlString = '''
     <!DOCTYPE html>
         <head><meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <style>body { background-color: ${Theme.of(context).colorScheme.surface.toHex()};} </style>
-             <style>
-              pre {
-                  background:${Theme.of(context).colorScheme.surface.toHex()};
-                  border: 1px solid #ddd;
-                  border-left: 3px solid #f36d33;
-                  color: ${Theme.of(context).textTheme.bodyText2?.color?.toHex()};
-                  page-break-inside: avoid;
-                  font-family: monospace;
-                  font-size: 15px;
-                  line-height: 1.6;
-                  margin-bottom: 1.6em;
-                  max-width: 100%;
-                  overflow: auto;
-                  padding: 1em 1.5em;
-                  display: block;
-                  word-wrap: break-word;
-              }
-              </style>
+        ${HTMLUtil.backgroundColor.withParams(<String>[
+          Theme.of(context).colorScheme.surface.toHex()
+        ])}
+        <style>
+        body { background-color: ${Theme.of(context).colorScheme.surface.toHex()};} 
+        </style>
+        ${HTMLUtil.bodyStyles.withParams(<String?>[
+          Theme.of(context).colorScheme.surface.toHex(),
+          Theme.of(context).textTheme.bodyText2?.color?.toHex(),
+        ])}
         </head>
         <body text="${Theme.of(context).textTheme.bodyText2?.color?.toHex()}" >
         $htmlText
         </body>
-        $resizeObserver''';
+        ${HTMLUtil.resizeObserver}''';
 
     final wv = WebView(
       key: ValueKey(DateTime.now().millisecond),

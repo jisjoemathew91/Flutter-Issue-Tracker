@@ -5,9 +5,9 @@ import 'package:flutter_issue_tracker/issue_tracker/domain/repository/issue_repo
 
 /// Usecase for getting issues.
 class GetIssues {
-  GetIssues(this.repository);
+  GetIssues(this._repository);
 
-  final IssueRepository repository;
+  final IssueRepository _repository;
 
   Future<Either<Failure, Issues>> execute({
     required String owner,
@@ -22,7 +22,7 @@ class GetIssues {
     List<String>? labels,
     String? milestone,
   }) {
-    return repository.getIssues(
+    return _repository.getIssues(
       owner: owner,
       name: name,
       limit: limit,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 enum TextSize { large, medium, small }
+
 enum TextType { display, headline, title, label, body }
 
 class AppTypography {

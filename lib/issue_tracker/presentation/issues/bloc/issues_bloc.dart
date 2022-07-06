@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_issue_tracker/core/helper/toast_helper.dart';
 import 'package:flutter_issue_tracker/issue_tracker/domain/entities/assignable_user_node.dart';
 import 'package:flutter_issue_tracker/issue_tracker/domain/entities/assignable_users.dart';
 import 'package:flutter_issue_tracker/issue_tracker/domain/entities/issues.dart';
@@ -12,6 +13,8 @@ import 'package:flutter_issue_tracker/issue_tracker/domain/usecase/get_assignabl
 import 'package:flutter_issue_tracker/issue_tracker/domain/usecase/get_issues.dart';
 import 'package:flutter_issue_tracker/issue_tracker/domain/usecase/get_labels.dart';
 import 'package:flutter_issue_tracker/issue_tracker/domain/usecase/get_milestones.dart';
+import 'package:flutter_issue_tracker/issue_tracker/domain/usecase/get_opened_issues.dart';
+import 'package:flutter_issue_tracker/issue_tracker/domain/usecase/set_issue_opened.dart';
 import 'package:flutter_issue_tracker/issue_tracker/presentation/utils/issue_util.dart';
 import 'package:stream_transform/stream_transform.dart';
 
@@ -31,6 +34,8 @@ class IssuesBloc extends Bloc<IssuesEvent, IssuesState> {
     this._getLabels,
     this._getAssignableUsers,
     this._getMilestones,
+    this._getOpenedIssues,
+    this._setIssueOpened,
   ) : super(const IssuesState()) {
     on<FetchIssuesEvent>(
       _onFetchIssues,
@@ -54,6 +59,9 @@ class IssuesBloc extends Bloc<IssuesEvent, IssuesState> {
     on<UpdateStateEvent>(_onUpdateState);
     on<UpdateDirectionEvent>(_onUpdateDirection);
     on<ClearFilterEvent>(_onClearFilter);
+    on<GetOpenedIssuesEvent>(_onGetOpenedIssuesEvent);
+    on<SetIssueOpenedEvent>(_onSetIssueOpenedEvent);
+    add(const GetOpenedIssuesEvent());
     add(const FetchIssuesEvent(isInitial: true));
   }
 
@@ -61,6 +69,8 @@ class IssuesBloc extends Bloc<IssuesEvent, IssuesState> {
   final GetLabels _getLabels;
   final GetAssignableUsers _getAssignableUsers;
   final GetMilestones _getMilestones;
+  final GetOpenedIssues _getOpenedIssues;
+  final SetIssueOpened _setIssueOpened;
 
   Future<void> _onFetchIssues(
     FetchIssuesEvent event,
@@ -269,5 +279,36 @@ class IssuesBloc extends Bloc<IssuesEvent, IssuesState> {
       ),
     );
     add(const FetchIssuesEvent(isInitial: true));
+  }
+
+  void _onGetOpenedIssuesEvent(
+    GetOpenedIssuesEvent event,
+    Emitter<IssuesState> emit,
+  ) {
+    _getOpenedIssues.execute().fold((failure) {
+      ToastHelper.showShortToast(
+        'Your previous issue opening history is unavailable.',
+      );
+    }, (data) {
+      emit(state.copyWith(openedIssues: data));
+    });
+  }
+
+  Future<void> _onSetIssueOpenedEvent(
+    SetIssueOpenedEvent event,
+    Emitter<IssuesState> emit,
+  ) async {
+    final list =
+        IssueUtil.getOpenedList(event.number, state.openedIssues ?? <String>[]);
+    final result = await _setIssueOpened.execute(numbers: list);
+    result.fold((failure) {
+      ToastHelper.showShortToast(
+        'Oops! your history is not saved locally.',
+      );
+    }, (data) {
+      if (data) {
+        emit(state.copyWith(openedIssues: list));
+      }
+    });
   }
 }

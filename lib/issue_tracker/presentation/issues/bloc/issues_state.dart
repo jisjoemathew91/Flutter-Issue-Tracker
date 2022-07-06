@@ -26,6 +26,7 @@ class IssuesState extends Equatable {
     this.selectedMilestone,
     this.states = 'OPEN',
     this.direction = 'DESC',
+    this.openedIssues,
   });
 
   final IssuesStatus? issuesStatus;
@@ -41,6 +42,7 @@ class IssuesState extends Equatable {
   final MilestoneNode? selectedMilestone;
   final String? states;
   final String? direction;
+  final List<String>? openedIssues;
 
   @override
   List<Object?> get props => [
@@ -57,6 +59,7 @@ class IssuesState extends Equatable {
         selectedAssignableUser,
         milestones,
         selectedMilestone,
+        openedIssues,
       ];
 
   IssuesState copyWith({
@@ -75,6 +78,7 @@ class IssuesState extends Equatable {
     bool clearMilestone = false,
     MilestoneNode? selectedMilestone,
     String? direction,
+    List<String>? openedIssues,
   }) {
     return IssuesState(
       issuesStatus: issuesStatus ?? this.issuesStatus,
@@ -94,6 +98,7 @@ class IssuesState extends Equatable {
       selectedMilestone:
           clearMilestone ? null : selectedMilestone ?? this.selectedMilestone,
       direction: direction ?? this.direction,
+      openedIssues: openedIssues ?? this.openedIssues,
     );
   }
 
@@ -145,4 +150,8 @@ class IssuesState extends Equatable {
       highlightLabelChip ||
       highlightAssigneeChip ||
       highlightMilestoneChip;
+
+  bool isOpened(int number) {
+    return openedIssues?.contains(number.toString()) == true;
+  }
 }

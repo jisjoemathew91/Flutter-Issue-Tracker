@@ -1,4 +1,4 @@
-import 'package:flutter_issue_tracker/issue_tracker/data/datasource/issue_query.dart';
+import 'package:flutter_issue_tracker/issue_tracker/data/datasource/remote/issue_remote_query.dart';
 import 'package:flutter_issue_tracker/issue_tracker/data/model/assignable_users_model.dart';
 import 'package:flutter_issue_tracker/issue_tracker/data/model/issue_node_model.dart';
 import 'package:flutter_issue_tracker/issue_tracker/data/model/issues_model.dart';
@@ -7,7 +7,7 @@ import 'package:flutter_issue_tracker/issue_tracker/data/model/milestones_model.
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 /// Data Source for fetching issues related queries
-abstract class IssueDataSource {
+abstract class IssueRemoteDataSource {
   /// Fetch issues with a fixed [limit] and a particular [states]
   ///
   /// 1. [states] values are OPEN or CLOSED
@@ -79,9 +79,9 @@ abstract class IssueDataSource {
   });
 }
 
-/// [IssueDataSource] Implementation class
-class IssueDataSourceImpl implements IssueDataSource {
-  IssueDataSourceImpl(this._client);
+/// [IssueRemoteDataSource] Implementation class
+class IssueRemoteDataSourceImpl implements IssueRemoteDataSource {
+  IssueRemoteDataSourceImpl(this._client);
 
   final GraphQLClient _client;
 

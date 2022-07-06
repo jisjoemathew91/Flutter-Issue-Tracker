@@ -99,3 +99,19 @@ class ClearFilterEvent extends IssuesEvent {
   @override
   List<Object?> get props => [];
 }
+
+class GetOpenedIssuesEvent extends IssuesEvent {
+  const GetOpenedIssuesEvent();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class SetIssueOpenedEvent extends IssuesEvent {
+  const SetIssueOpenedEvent({required this.number});
+
+  final int number;
+
+  @override
+  List<Object?> get props => [];
+}
