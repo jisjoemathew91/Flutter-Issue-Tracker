@@ -53,7 +53,7 @@ Future<void> init() async {
       ),
     )
     ..registerFactory(() => IssueDetailsBloc(locator()))
-    ..registerFactory(() => ThemeBloc(locator()))
+    ..registerLazySingleton(() => ThemeBloc(locator()))
     ..registerSingleton(ConnectivityBloc(locator()))
 
     // usecase
