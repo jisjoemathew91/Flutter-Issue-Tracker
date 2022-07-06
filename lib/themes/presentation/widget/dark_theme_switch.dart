@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_issue_tracker/constants/colors.dart';
-import 'package:flutter_issue_tracker/core/injection.dart';
 import 'package:flutter_issue_tracker/themes/presentation/bloc/theme_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -10,8 +8,8 @@ class DarkThemeSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => locator<ThemeBloc>(),
+    return BlocProvider.value(
+      value: BlocProvider.of<ThemeBloc>(context),
       child: const DarkThemeSwitchView(),
     );
   }
@@ -38,8 +36,7 @@ class DarkThemeSwitchView extends StatelessWidget {
               width: 20.sp,
               height: 20.sp,
               child: Image.asset(
-                Theme.of(context).colorScheme.onSurface.value ==
-                        AppColors.white.value
+                state.isDarkMode
                     ? 'assets/icon/ic_moon.png'
                     : 'assets/icon/ic_sun.png',
                 color: Theme.of(context).colorScheme.onSurface,
