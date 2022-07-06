@@ -7,6 +7,7 @@ class IssueNode {
     this.id,
     this.number,
     this.title,
+    this.authorAssociation,
     this.author,
     this.createdAt,
     this.closedAt,
@@ -23,6 +24,7 @@ class IssueNode {
   String? id;
   int? number;
   String? title;
+  String? authorAssociation;
   Author? author;
   String? createdAt;
   String? closedAt;

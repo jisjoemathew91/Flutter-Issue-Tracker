@@ -1,12 +1,18 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_issue_tracker/app/extension/string_extension.dart';
+import 'package:flutter_issue_tracker/app/routes.dart';
 import 'package:flutter_issue_tracker/constants/colors.dart';
 import 'package:flutter_issue_tracker/core/injection.dart';
 import 'package:flutter_issue_tracker/core/typography.dart';
+import 'package:flutter_issue_tracker/issue_tracker/presentation/issue_detail/pages/issue_details_page.dart';
 import 'package:flutter_issue_tracker/issue_tracker/presentation/issues/bloc/issues_bloc.dart';
 import 'package:flutter_issue_tracker/issue_tracker/presentation/issues/widgets/filter_bottom_sheet.dart';
+import 'package:flutter_issue_tracker/issue_tracker/presentation/issues/widgets/issue_direction_dialog.dart';
 import 'package:flutter_issue_tracker/issue_tracker/presentation/issues/widgets/issue_filter_chip.dart';
 import 'package:flutter_issue_tracker/issue_tracker/presentation/issues/widgets/issue_list_tile.dart';
 import 'package:flutter_issue_tracker/issue_tracker/presentation/issues/widgets/issue_states_dialog.dart';
@@ -34,8 +40,7 @@ class IssuesPageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _bloc = context.read<IssuesBloc>()
-      ..add(const FetchIssuesEvent(isInitial: true));
+    final _bloc = context.read<IssuesBloc>();
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
@@ -44,10 +49,13 @@ class IssuesPageView extends StatelessWidget {
           child: Column(
             children: [
               Text(
-                dotenv.env['PROJECT_NAME']!,
+                '#${dotenv.env['PROJECT_NAME']!}',
                 style: AppTypography.style(
                   textType: TextType.label,
                   textSize: TextSize.large,
+                ).copyWith(
+                  color:
+                      Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
                 ),
               ),
               Text(
@@ -73,8 +81,17 @@ class IssuesPageView extends StatelessWidget {
                 builder: (context, state) {
                   return Row(
                     children: [
+                      if (state.showClearFilter)
+                        IssueFilterChip(
+                          value: 'Clear All',
+                          isHighlighted: true,
+                          showDropDown: false,
+                          icon: Icons.clear_all,
+                          highlightColor: AppColors.red,
+                          onPressed: () => _bloc.add(const ClearFilterEvent()),
+                        ),
                       IssueFilterChip(
-                        value: state.states!.capitalizeFirstofEach(),
+                        value: state.states!.capitalizeFirstLetter(),
                         isHighlighted: true,
                         onPressed: () => showDialog<IssueStatesDialog>(
                           context: context,
@@ -89,6 +106,7 @@ class IssuesPageView extends StatelessWidget {
                       IssueFilterChip(
                         value: state.labelChipTitle,
                         isHighlighted: state.highlightLabelChip,
+                        icon: Icons.label_outline,
                         onPressed: () {
                           showMaterialModalBottomSheet<Widget>(
                             backgroundColor: Colors.transparent,
@@ -107,6 +125,7 @@ class IssuesPageView extends StatelessWidget {
                       IssueFilterChip(
                         value: state.assigneeChipTitle,
                         isHighlighted: state.highlightAssigneeChip,
+                        icon: Icons.person_outline,
                         onPressed: () {
                           showMaterialModalBottomSheet<Widget>(
                             backgroundColor: Colors.transparent,
@@ -124,6 +143,7 @@ class IssuesPageView extends StatelessWidget {
                       IssueFilterChip(
                         value: state.milestoneChipTitle,
                         isHighlighted: state.highlightMilestoneChip,
+                        icon: Icons.flag_outlined,
                         onPressed: () {
                           showMaterialModalBottomSheet<Widget>(
                             backgroundColor: Colors.transparent,
@@ -138,6 +158,28 @@ class IssuesPageView extends StatelessWidget {
                           );
                         },
                       ),
+                      SizedBox(
+                        height: 20.sp,
+                        child: VerticalDivider(
+                          width: 3.sp,
+                          thickness: 1.sp,
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
+                      ),
+                      IssueFilterChip(
+                        value: state.directionChipTitle,
+                        isHighlighted: true,
+                        icon: Icons.sort,
+                        onPressed: () => showDialog<IssueStatesDialog>(
+                          context: context,
+                          builder: (context) {
+                            return BlocProvider.value(
+                              value: _bloc,
+                              child: const IssueDirectionDialog(),
+                            );
+                          },
+                        ),
+                      ),
                     ],
                   );
                 },
@@ -149,6 +191,18 @@ class IssuesPageView extends StatelessWidget {
       body: SmartRefresher(
         controller: _refreshController,
         enablePullUp: true,
+        footer: ClassicFooter(
+          loadingIcon: Platform.isIOS
+              ? const CupertinoActivityIndicator()
+              : SizedBox(
+                  height: 20.sp,
+                  width: 20.sp,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2.sp,
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
+                ),
+        ),
         onRefresh: () => _bloc.add(const FetchIssuesEvent(isInitial: true)),
         onLoading: () => _bloc.add(const FetchIssuesEvent()),
         child: CustomScrollView(
@@ -214,7 +268,15 @@ class IssuesPageView extends StatelessWidget {
                                 (issue) {
                                   return IssueListTile(
                                     issue: issue,
-                                    onTap: () {},
+                                    onTap: () {
+                                      Navigator.pushNamed(
+                                        context,
+                                        AppPageRoutes.issueDetailPage,
+                                        arguments: IssueDetailsPageArguments(
+                                          issue.number,
+                                        ),
+                                      );
+                                    },
                                   );
                                 },
                               ).toList() ??

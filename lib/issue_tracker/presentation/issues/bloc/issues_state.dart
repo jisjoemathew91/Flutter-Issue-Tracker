@@ -9,6 +9,7 @@ enum AssignableUsersStatus { fetching, fetched, error }
 enum MilestonesStatus { fetching, fetched, error }
 
 const List<String> availableStates = ['OPEN', 'CLOSED'];
+const List<String> availableDirections = ['DESC', 'ASC'];
 
 class IssuesState extends Equatable {
   const IssuesState({
@@ -24,6 +25,7 @@ class IssuesState extends Equatable {
     this.milestones,
     this.selectedMilestone,
     this.states = 'OPEN',
+    this.direction = 'DESC',
   });
 
   final IssuesStatus? issuesStatus;
@@ -38,6 +40,7 @@ class IssuesState extends Equatable {
   final Milestones? milestones;
   final MilestoneNode? selectedMilestone;
   final String? states;
+  final String? direction;
 
   @override
   List<Object?> get props => [
@@ -47,6 +50,7 @@ class IssuesState extends Equatable {
         milestonesStatus,
         issues,
         states,
+        direction,
         labels,
         selectedLabels,
         assignableUsers,
@@ -70,6 +74,7 @@ class IssuesState extends Equatable {
     Milestones? milestones,
     bool clearMilestone = false,
     MilestoneNode? selectedMilestone,
+    String? direction,
   }) {
     return IssuesState(
       issuesStatus: issuesStatus ?? this.issuesStatus,
@@ -88,6 +93,7 @@ class IssuesState extends Equatable {
       milestones: milestones ?? this.milestones,
       selectedMilestone:
           clearMilestone ? null : selectedMilestone ?? this.selectedMilestone,
+      direction: direction ?? this.direction,
     );
   }
 
@@ -129,4 +135,14 @@ class IssuesState extends Equatable {
   String get milestoneChipTitle => selectedMilestone?.title ?? 'Milestone';
 
   bool get highlightMilestoneChip => milestoneChipTitle != 'Milestone';
+
+  String get directionChipTitle =>
+      'Sort: ${IssueUtil.getDirectionNameFromKey(direction!)}';
+
+  bool get showClearFilter =>
+      states != 'OPEN' ||
+      direction != 'DESC' ||
+      highlightLabelChip ||
+      highlightAssigneeChip ||
+      highlightMilestoneChip;
 }

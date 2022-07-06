@@ -8,6 +8,7 @@ class IssueNodeModel {
     this.id,
     this.number,
     this.title,
+    this.authorAssociation,
     this.author,
     this.createdAt,
     this.closedAt,
@@ -25,6 +26,7 @@ class IssueNodeModel {
     id = json['id'] as String?;
     number = json['number'] as int?;
     title = json['title'] as String?;
+    authorAssociation = json['authorAssociation'] as String?;
     author =
         json['author'] != null ? AuthorModel.fromJson(json['author']) : null;
     createdAt = json['createdAt'] as String?;
@@ -45,6 +47,7 @@ class IssueNodeModel {
   String? id;
   int? number;
   String? title;
+  String? authorAssociation;
   AuthorModel? author;
   String? createdAt;
   String? closedAt;
@@ -62,6 +65,7 @@ class IssueNodeModel {
     map['id'] = id;
     map['number'] = number;
     map['title'] = title;
+    map['authorAssociation'] = authorAssociation;
     if (author != null) {
       map['author'] = author?.toJson();
     }
@@ -86,6 +90,7 @@ class IssueNodeModel {
         id: id,
         number: number,
         title: title,
+        authorAssociation: authorAssociation,
         author: author?.toEntity(),
         createdAt: createdAt,
         closedAt: closedAt,

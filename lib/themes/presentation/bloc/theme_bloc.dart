@@ -16,7 +16,7 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
 
   void _onToggleTheme(ToggleThemeEvent event, Emitter emit) {
     _themeService.setThemeMode(
-      state.isDarkMode ? ThemeManagerMode.light : ThemeManagerMode.dark,
+      _themeService.isDarkMode ? ThemeManagerMode.light : ThemeManagerMode.dark,
     );
     emit(state.copyWith(isDarkMode: _themeService.isDarkMode));
   }
