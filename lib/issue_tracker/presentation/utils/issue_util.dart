@@ -1,8 +1,8 @@
 import 'dart:ui';
 
 import 'package:dartz/dartz.dart';
-import 'package:flutter_issue_tracker/app/extension/string_extension.dart';
 import 'package:flutter_issue_tracker/constants/colors.dart';
+import 'package:flutter_issue_tracker/core/extension/string_extension.dart';
 import 'package:flutter_issue_tracker/issue_tracker/domain/entities/assignable_user_node.dart';
 import 'package:flutter_issue_tracker/issue_tracker/domain/entities/assignable_users.dart';
 import 'package:flutter_issue_tracker/issue_tracker/domain/entities/label_node.dart';
@@ -110,5 +110,10 @@ class IssueUtil {
   static String getDirectionNameFromKey(String key) {
     if (key == 'ASC') return 'Oldest First';
     return 'Latest First';
+  }
+
+  static List<String> getOpenedList(int number, List<String> previousList) {
+    final newList = List<String>.from(previousList)..add(number.toString());
+    return newList.toSet().toList();
   }
 }

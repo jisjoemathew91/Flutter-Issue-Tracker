@@ -12,13 +12,18 @@ class IssueListTile extends StatelessWidget {
     super.key,
     required this.issue,
     required this.onTap,
+    required this.isOpened,
   });
 
   final IssueNode issue;
   final GestureTapCallback? onTap;
+  final bool isOpened;
 
   @override
   Widget build(BuildContext context) {
+    final textColor = isOpened
+        ? Theme.of(context).colorScheme.onSurface.withOpacity(0.6)
+        : null;
     return InkWell(
       onTap: onTap,
       child: Container(
@@ -54,6 +59,8 @@ class IssueListTile extends StatelessWidget {
                         style: AppTypography.style(
                           textType: TextType.body,
                           textSize: TextSize.small,
+                        ).copyWith(
+                          color: textColor,
                         ),
                       ),
                       const Spacer(),
@@ -62,6 +69,8 @@ class IssueListTile extends StatelessWidget {
                         style: AppTypography.style(
                           textType: TextType.body,
                           textSize: TextSize.small,
+                        ).copyWith(
+                          color: textColor,
                         ),
                       ),
                     ],
@@ -71,6 +80,8 @@ class IssueListTile extends StatelessWidget {
                     style: AppTypography.style(
                       textSize: TextSize.small,
                       isBold: true,
+                    ).copyWith(
+                      color: textColor,
                     ),
                   ),
                   SizedBox(height: 4.sp),

@@ -13,4 +13,12 @@ extension StringExtension on String {
   String removeUnderscore() {
     return replaceAll('_', ' ');
   }
+
+  String withParams(List<dynamic> params) {
+    var tmp = this;
+    for (var i = 0; i < params.length; i++) {
+      tmp = tmp.replaceAll('%[$i]', params[i].toString());
+    }
+    return tmp;
+  }
 }

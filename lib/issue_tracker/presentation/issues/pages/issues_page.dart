@@ -4,10 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_issue_tracker/app/extension/string_extension.dart';
-import 'package:flutter_issue_tracker/app/routes.dart';
 import 'package:flutter_issue_tracker/constants/colors.dart';
+import 'package:flutter_issue_tracker/core/extension/string_extension.dart';
 import 'package:flutter_issue_tracker/core/injection.dart';
+import 'package:flutter_issue_tracker/core/routes.dart';
 import 'package:flutter_issue_tracker/core/typography.dart';
 import 'package:flutter_issue_tracker/issue_tracker/presentation/issue_detail/pages/issue_details_page.dart';
 import 'package:flutter_issue_tracker/issue_tracker/presentation/issues/bloc/issues_bloc.dart';
@@ -268,7 +268,13 @@ class IssuesPageView extends StatelessWidget {
                                 (issue) {
                                   return IssueListTile(
                                     issue: issue,
+                                    isOpened: state.isOpened(issue.number!),
                                     onTap: () {
+                                      _bloc.add(
+                                        SetIssueOpenedEvent(
+                                          number: issue.number!,
+                                        ),
+                                      );
                                       Navigator.pushNamed(
                                         context,
                                         AppPageRoutes.issueDetailPage,

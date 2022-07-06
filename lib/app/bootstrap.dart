@@ -38,7 +38,7 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
 
       await ThemeManager.initialise();
 
-      /// HiveStore is used for persistence
+      /// HiveStore is used for graphQL persistence
       await initHiveForFlutter();
 
       await ScreenUtil.ensureScreenSize();

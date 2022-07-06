@@ -5,9 +5,9 @@ import 'package:flutter_issue_tracker/issue_tracker/domain/repository/issue_repo
 
 /// Usecase for getting milestones.
 class GetMilestones {
-  GetMilestones(this.repository);
+  GetMilestones(this._repository);
 
-  final IssueRepository repository;
+  final IssueRepository _repository;
 
   Future<Either<Failure, Milestones>> execute({
     required String owner,
@@ -15,7 +15,7 @@ class GetMilestones {
     required int limit,
     String? nextToken,
   }) {
-    return repository.getMilestones(
+    return _repository.getMilestones(
       owner: owner,
       name: name,
       limit: limit,

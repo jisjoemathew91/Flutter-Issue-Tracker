@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_issue_tracker/app/extension/string_extension.dart';
 import 'package:flutter_issue_tracker/constants/colors.dart';
+import 'package:flutter_issue_tracker/core/extension/string_extension.dart';
 import 'package:flutter_issue_tracker/core/typography.dart';
 import 'package:flutter_issue_tracker/issue_tracker/presentation/utils/issue_util.dart';
 import 'package:flutter_issue_tracker/issue_tracker/presentation/utils/time_util.dart';

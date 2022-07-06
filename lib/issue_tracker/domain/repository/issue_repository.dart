@@ -82,4 +82,8 @@ abstract class IssueRepository {
     required int limit,
     String? nextToken,
   });
+
+  Either<Failure, List<String>> getOpenedIssues();
+
+  Future<Either<Failure, bool>> setIssueOpened({required List<String> numbers});
 }

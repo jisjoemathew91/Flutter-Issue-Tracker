@@ -5,9 +5,9 @@ import 'package:flutter_issue_tracker/issue_tracker/domain/repository/issue_repo
 
 /// Usecase for getting labels.
 class GetLabels {
-  GetLabels(this.repository);
+  GetLabels(this._repository);
 
-  final IssueRepository repository;
+  final IssueRepository _repository;
 
   Future<Either<Failure, Labels>> execute({
     required String owner,
@@ -17,7 +17,7 @@ class GetLabels {
     String? field,
     String? direction,
   }) {
-    return repository.getLabels(
+    return _repository.getLabels(
       owner: owner,
       name: name,
       limit: limit,

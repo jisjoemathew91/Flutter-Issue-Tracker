@@ -5,9 +5,9 @@ import 'package:flutter_issue_tracker/issue_tracker/domain/repository/issue_repo
 
 /// Usecase for getting assignable users.
 class GetAssignableUsers {
-  GetAssignableUsers(this.repository);
+  GetAssignableUsers(this._repository);
 
-  final IssueRepository repository;
+  final IssueRepository _repository;
 
   Future<Either<Failure, AssignableUsers>> execute({
     required String owner,
@@ -15,7 +15,7 @@ class GetAssignableUsers {
     required int limit,
     String? nextToken,
   }) {
-    return repository.getAssignableUsers(
+    return _repository.getAssignableUsers(
       owner: owner,
       name: name,
       limit: limit,

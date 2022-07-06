@@ -5,7 +5,9 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_issue_tracker/issue_tracker/domain/entities/issue_node.dart';
 import 'package:flutter_issue_tracker/issue_tracker/domain/usecase/get_issue_detail.dart';
+
 part 'issue_details_event.dart';
+
 part 'issue_details_state.dart';
 
 class IssueDetailsBloc extends Bloc<IssueDetailsEvent, IssueDetailsState> {

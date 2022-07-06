@@ -5,16 +5,16 @@ import 'package:flutter_issue_tracker/issue_tracker/domain/repository/issue_repo
 
 /// Usecase for getting issue detail.
 class GetIssueDetail {
-  GetIssueDetail(this.repository);
+  GetIssueDetail(this._repository);
 
-  final IssueRepository repository;
+  final IssueRepository _repository;
 
   Future<Either<Failure, IssueNode>> execute({
     required String owner,
     required String name,
     required int number,
   }) {
-    return repository.getIssueDetails(
+    return _repository.getIssueDetails(
       owner: owner,
       name: name,
       number: number,
