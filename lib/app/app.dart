@@ -4,6 +4,7 @@ import 'package:flutter_issue_tracker/connectivity/presentation/bloc/connectivit
 import 'package:flutter_issue_tracker/core/app_themes.dart';
 import 'package:flutter_issue_tracker/core/injection.dart';
 import 'package:flutter_issue_tracker/core/routes.dart';
+import 'package:flutter_issue_tracker/themes/presentation/bloc/theme_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:stacked_themes/stacked_themes.dart';
 
@@ -12,8 +13,15 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => locator<ConnectivityBloc>(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (BuildContext context) => locator<ConnectivityBloc>(),
+        ),
+        BlocProvider(
+          create: (BuildContext context) => locator<ThemeBloc>(),
+        ),
+      ],
       child: const AppView(),
     );
   }
