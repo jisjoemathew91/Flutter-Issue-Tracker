@@ -91,6 +91,7 @@ class IssueDetailsPageView extends StatelessWidget {
                           if (state.status == IssueDetailsStatus.error) {
                             return Center(
                               child: Padding(
+                                key: const Key('errorText'),
                                 padding: EdgeInsets.only(top: 20.sp),
                                 child: const Text(
                                   'Oops! Check your connection.',

@@ -75,6 +75,7 @@ class AssignableUsersList extends StatelessWidget {
                               AssignableUsersStatus.error &&
                           state.assignableUsers == null) {
                         return Center(
+                          key: const Key('errorText'),
                           child: Padding(
                             padding: EdgeInsets.only(top: 20.sp),
                             child: const Text(
