@@ -6,6 +6,8 @@ enum TextSize { large, medium, small }
 enum TextType { display, headline, title, label, body }
 
 class AppTypography {
+
+  /// Defines the font size by checking the [TextType],[TextSize] values
   static double getFontSize(TextType type, TextSize size) {
     switch (size) {
       case TextSize.large:
@@ -56,6 +58,8 @@ class AppTypography {
     }
   }
 
+  /// Defines the text line height by checking the [TextType],[TextSize] values
+  /// Utilises the [getFontSize] method for finding the text size
   static double getFontHeight(TextType type, TextSize size) {
     final fontSize = getFontSize(type, size);
     switch (size) {
@@ -107,6 +111,7 @@ class AppTypography {
     }
   }
 
+  /// Helps to call app defined [TextStyle]
   static TextStyle style({
     TextType textType = TextType.title,
     TextSize textSize = TextSize.medium,

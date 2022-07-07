@@ -1,4 +1,8 @@
+/// Utility class for handling HTML part of custom web view widget
 class HTMLUtil {
+  /// Observer listen to change in height of HTML webview.
+  /// Eg: when opening code lines or logs,
+  /// the height of webview updates and this is caught here.
   static const String resizeObserver = '''
     <script>
           const resizeObserver = new ResizeObserver(entries =>

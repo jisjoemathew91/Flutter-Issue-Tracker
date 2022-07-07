@@ -11,6 +11,9 @@ import 'package:flutter_issue_tracker/webview/presentation/util/html_util.dart';
 import 'package:flutter_issue_tracker/webview/presentation/widget/web_view_dialog.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+/// Widget accepts [htmlText] (HTML body as [String]).
+/// The HTML string is shown as webview with theme handling
+/// and custom style especially for gith hub issue
 class CustomWebView extends StatelessWidget {
   const CustomWebView({super.key, required this.htmlText});
 

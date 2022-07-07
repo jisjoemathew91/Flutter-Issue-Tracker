@@ -9,7 +9,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:stacked_themes/stacked_themes.dart';
 
-/// Logs the change and error in bloc class
+/// [AppBlocObserver] obeserves the bloc and
+/// logs the change and error in any bloc class
 class AppBlocObserver extends BlocObserver {
   @override
   void onChange(BlocBase bloc, Change change) {
@@ -25,7 +26,9 @@ class AppBlocObserver extends BlocObserver {
 }
 
 /// Wrap method to load initial data before running App in main method
+/// Logs the error in thhe defined zones
 Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
+  // All flutter errors are captured here
   FlutterError.onError = (details) {
     log(details.exceptionAsString(), stackTrace: details.stack);
   };
@@ -34,15 +37,20 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
     () async {
       WidgetsFlutterBinding.ensureInitialized();
 
+      // Loads the environments values before running the app
       await dotenv.load();
 
+      // Prefetch the configured the theme before running the app
       await ThemeManager.initialise();
 
-      /// HiveStore is used for graphQL persistence
+      // HiveStore is initialised before running the app
+      // Used as as cache memory for graphQL persistance
       await initHiveForFlutter();
 
+      // Ensuring screen size of the window before running the app
       await ScreenUtil.ensureScreenSize();
 
+      // Call for dependency injection
       await di.init();
 
       await BlocOverrides.runZoned(
