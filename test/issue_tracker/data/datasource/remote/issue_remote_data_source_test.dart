@@ -13,9 +13,11 @@ void main() {
   setUpAll(() {
     registerFallbackValue(QueryOptions(document: gql('')));
   });
+
   group('Issue datasource test', () {
     final GraphQLClient client = MockGraphQLClient();
     final dataSourceImpl = IssueRemoteDataSourceImpl(client);
+
     test('- Get issue details success test', () async {
       when(() => client.query(any())).thenAnswer(
         (invocation) => Future.value(
@@ -30,11 +32,13 @@ void main() {
           ),
         ),
       );
+
       expect(
         await dataSourceImpl.getIssueDetails(name: '', number: 123, owner: ''),
-        isA<IssueNodeModel>(),
+        isA<IssueNodeModel>().having((p0) => p0.id, 'will have id', '123'),
       );
     });
+
     test('- Get issue details fail test', () async {
       when(() => client.query(any())).thenAnswer(
         (invocation) => Future.value(
@@ -51,9 +55,12 @@ void main() {
       );
       expect(
         dataSourceImpl.getIssueDetails(name: '', number: 123, owner: ''),
-        throwsA(isA<ServerException>()),
+        throwsA(
+          isA<ContextReadException>(),
+        ),
       );
     });
+
     test('- Get issues success test', () async {
       when(() => client.query(any())).thenAnswer(
         (invocation) => Future.value(
@@ -85,6 +92,7 @@ void main() {
         isA<IssuesModel>(),
       );
     });
+
     test('- Get issues fail test', () async {
       when(() => client.query(any())).thenAnswer(
         (invocation) => Future.value(
@@ -113,9 +121,10 @@ void main() {
           milestone: 'milestone',
           nextToken: 'token',
         ),
-        throwsA(isA<ServerException>()),
+        throwsA(isA<ContextReadException>()),
       );
     });
+
     test('- Get assignable users success test', () async {
       when(() => client.query(any())).thenAnswer(
         (invocation) => Future.value(
@@ -140,6 +149,7 @@ void main() {
         isA<AssignableUsersModel>(),
       );
     });
+
     test('- Get assignable users fail test', () async {
       when(() => client.query(any())).thenAnswer(
         (invocation) => Future.value(
@@ -161,9 +171,10 @@ void main() {
           limit: 1,
           nextToken: 'token',
         ),
-        throwsA(isA<ServerException>()),
+        throwsA(isA<ContextReadException>()),
       );
     });
+
     test('- Get labels success test', () async {
       when(() => client.query(any())).thenAnswer(
         (invocation) => Future.value(
@@ -190,6 +201,7 @@ void main() {
         isA<LabelsModel>(),
       );
     });
+
     test('- Get labels fail test', () async {
       when(() => client.query(any())).thenAnswer(
         (invocation) => Future.value(
@@ -213,9 +225,10 @@ void main() {
           field: 'field',
           direction: 'direction',
         ),
-        throwsA(isA<ServerException>()),
+        throwsA(isA<ContextReadException>()),
       );
     });
+
     test('- Get milestones success test', () async {
       when(() => client.query(any())).thenAnswer(
         (invocation) => Future.value(
@@ -240,6 +253,7 @@ void main() {
         isA<MilestonesModel>(),
       );
     });
+
     test('- Get milestones fail test', () async {
       when(() => client.query(any())).thenAnswer(
         (invocation) => Future.value(
@@ -261,7 +275,7 @@ void main() {
           limit: 1,
           nextToken: 'token',
         ),
-        throwsA(isA<ServerException>()),
+        throwsA(isA<ContextReadException>()),
       );
     });
   });
