@@ -31,6 +31,12 @@ The core features of the app includes:
 * Other
  * error handling
 
+
+## Working Demo of the App 🏃
+
+![compressed-ezgif-1-2cb13104b3](https://user-images.githubusercontent.com/77726591/177889527-6c75553c-3662-4d17-9c60-85e623480fe3.gif)
+
+
 Technical features and implementation includes:|
 
 * The project uses CLEAN architecture with BloC as the State management tool.
