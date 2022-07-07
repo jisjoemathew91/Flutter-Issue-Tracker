@@ -48,6 +48,7 @@ class FetchMilestonesEvent extends IssuesEvent {
   List<Object?> get props => [isInitial];
 }
 
+/// [UpdateStateEvent] updates the current [states]
 class UpdateStateEvent extends IssuesEvent {
   const UpdateStateEvent({required this.states});
 
@@ -57,6 +58,8 @@ class UpdateStateEvent extends IssuesEvent {
   List<Object?> get props => [states];
 }
 
+/// [UpdateSelectedLabelsEvent] add/remove the current selected [label]
+/// to selected labels list.
 class UpdateSelectedLabelsEvent extends IssuesEvent {
   const UpdateSelectedLabelsEvent({required this.label});
 
@@ -66,6 +69,8 @@ class UpdateSelectedLabelsEvent extends IssuesEvent {
   List<Object?> get props => [];
 }
 
+/// [UpdateSelectedAssignableUsersEvent] add/remove the
+/// current selected [assignableUser]
 class UpdateSelectedAssignableUsersEvent extends IssuesEvent {
   const UpdateSelectedAssignableUsersEvent({required this.assignableUser});
 
@@ -75,6 +80,8 @@ class UpdateSelectedAssignableUsersEvent extends IssuesEvent {
   List<Object?> get props => [];
 }
 
+/// [UpdateSelectedMilestonesEvent] add/remove the
+/// current selected [milestone]
 class UpdateSelectedMilestonesEvent extends IssuesEvent {
   const UpdateSelectedMilestonesEvent({required this.milestone});
 
@@ -84,6 +91,7 @@ class UpdateSelectedMilestonesEvent extends IssuesEvent {
   List<Object?> get props => [];
 }
 
+/// [UpdateDirectionEvent] updates the current [direction]
 class UpdateDirectionEvent extends IssuesEvent {
   const UpdateDirectionEvent({required this.direction});
 
@@ -93,6 +101,8 @@ class UpdateDirectionEvent extends IssuesEvent {
   List<Object?> get props => [direction];
 }
 
+/// [ClearFilterEvent] clear all filters and
+/// replaces with initial filter state
 class ClearFilterEvent extends IssuesEvent {
   const ClearFilterEvent();
 
@@ -100,6 +110,7 @@ class ClearFilterEvent extends IssuesEvent {
   List<Object?> get props => [];
 }
 
+/// [GetOpenedIssuesEvent] update state with all opened issues
 class GetOpenedIssuesEvent extends IssuesEvent {
   const GetOpenedIssuesEvent();
 
@@ -107,6 +118,7 @@ class GetOpenedIssuesEvent extends IssuesEvent {
   List<Object?> get props => [];
 }
 
+/// [SetIssueOpenedEvent] updates opened issues locally.
 class SetIssueOpenedEvent extends IssuesEvent {
   const SetIssueOpenedEvent({required this.number});
 

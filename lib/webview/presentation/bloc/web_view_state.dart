@@ -8,9 +8,7 @@ class WebViewState extends Equatable {
   final double height;
 
   @override
-  List<Object?> get props => [
-        height,
-      ];
+  List<Object?> get props => [height];
 
   WebViewState copyWith({
     double? height,

@@ -26,13 +26,16 @@ class SplashPageView extends StatelessWidget {
     return BlocListener<SplashBloc, SplashState>(
       listener: (context, state) {
         if (state.status == SplashStatus.waiting) {
+          // Update status as completed once animation is over
           _bloc.add(CompleteSplashEvent());
+          // Navigate to issues listing page once status is set as complete
           Navigator.pushReplacementNamed(context, AppPageRoutes.issuesPage);
         }
       },
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,
         body: Center(
+          // Widget used to animate splash text
           child: AnimatedTextKit(
             animatedTexts: [
               TypewriterAnimatedText(

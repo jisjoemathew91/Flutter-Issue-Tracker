@@ -1,8 +1,8 @@
 /// Utility class for handling HTML part of custom web view widget
 class HTMLUtil {
-  /// Observer listen to change in height of HTML webview.
+  /// Javascript observer listen to change in height of HTML webview.
   /// Eg: when opening code lines or logs,
-  /// the height of webview updates and this is caught here.
+  /// the height of webview changes and sends message through javascript channel
   static const String resizeObserver = '''
     <script>
           const resizeObserver = new ResizeObserver(entries =>
@@ -11,6 +11,7 @@ class HTMLUtil {
         </script>
     ''';
 
+  /// Html code giving styling to beautify code lines and logs
   static const String bodyStyles = r'''
   <style>
   pre {
@@ -31,6 +32,7 @@ class HTMLUtil {
   }
   </style>''';
 
+  /// HTML code handling the color of its view
   static const String backgroundColor = r'''
   <style>
   body { background-color: $%[0];} 
