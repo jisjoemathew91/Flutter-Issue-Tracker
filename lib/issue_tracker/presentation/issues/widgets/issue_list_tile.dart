@@ -22,7 +22,7 @@ class IssueListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textColor = isOpened
-        ? Theme.of(context).colorScheme.onSurface.withOpacity(0.6)
+        ? Theme.of(context).colorScheme.onSurface.withOpacity(0.5)
         : null;
     return InkWell(
       onTap: onTap,

@@ -13,6 +13,7 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // classes which are required all over the app
     return MultiBlocProvider(
       providers: [
         BlocProvider(

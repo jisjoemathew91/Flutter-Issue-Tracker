@@ -1,5 +1,6 @@
 import 'package:timeago/timeago.dart' as timeago;
 
+/// Utility class makes date time handling easier in issue_tracker feature
 class TimeUtil {
   /// Format utc [time] string to ago format
   /// eg: 2 hours, 3 days etc.

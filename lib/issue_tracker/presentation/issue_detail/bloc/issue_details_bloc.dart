@@ -22,11 +22,13 @@ class IssueDetailsBloc extends Bloc<IssueDetailsEvent, IssueDetailsState> {
     Emitter<IssueDetailsState> emit,
   ) async {
     emit(state.copyWith(status: IssueDetailsStatus.fetching));
+
     final result = await _getIssueDetail.execute(
       owner: dotenv.env['PROJECT_OWNER']!,
       name: dotenv.env['PROJECT_NAME']!,
       number: event.issueNumber ?? 0,
     );
+
     result.fold((failure) {
       emit(state.copyWith(status: IssueDetailsStatus.error));
     }, (data) {

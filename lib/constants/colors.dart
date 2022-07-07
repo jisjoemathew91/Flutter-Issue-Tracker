@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// [AppColors] defines all the colors used in the app
 class AppColors {
   static const Color black = Color(0xFF232323);
   static const Color fadeGray = Color(0xFFF0F1F3);

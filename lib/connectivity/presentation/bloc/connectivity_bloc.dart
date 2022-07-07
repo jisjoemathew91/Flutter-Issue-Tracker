@@ -13,6 +13,8 @@ class ConnectivityBloc extends Bloc<ConnectivityEvent, ConnectivityState> {
   ConnectivityBloc(this._dataConnectionChecker)
       : super(const ConnectivityState()) {
     on<ListenConnectionEvent>(_onListenConnection);
+
+    // Call listen to connection when the bloc class is constructed
     add(ListenConnectionEvent());
   }
 

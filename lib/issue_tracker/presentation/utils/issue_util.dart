@@ -10,13 +10,10 @@ import 'package:flutter_issue_tracker/issue_tracker/domain/entities/labels.dart'
 import 'package:flutter_issue_tracker/issue_tracker/domain/entities/milestone_node.dart';
 import 'package:flutter_issue_tracker/issue_tracker/domain/entities/milestones.dart';
 
-/// Describes issue states
-enum IssuesStates {
-  open,
-  closed,
-  notPlanned,
-}
+/// Represents issue states
+enum IssuesStates { open, closed, notPlanned }
 
+/// Utility class makes issue handling easier in issue_tracker feature
 class IssueUtil {
   /// Gives [IssuesStates] by comparing [state] and [stateReason] text.
   static IssuesStates getIssueState(String? state, String? stateReason) {
@@ -60,6 +57,7 @@ class IssueUtil {
     return index;
   }
 
+  /// Removes repeating [LabelNode] from [Labels]
   static Labels getDistinctLabels(Labels labels) {
     final idSet = <String>{};
     final distinctNodes = <LabelNode>[];
@@ -71,6 +69,7 @@ class IssueUtil {
     return labels..nodes = distinctNodes;
   }
 
+  /// Removes repeating [AssignableUserNode] from [AssignableUsers]
   static AssignableUsers getDistinctAsignee(AssignableUsers users) {
     final idSet = <String>{};
     final distinctNodes = <AssignableUserNode>[];
@@ -82,6 +81,7 @@ class IssueUtil {
     return users..nodes = distinctNodes;
   }
 
+  /// Removes repeating [MilestoneNode] from [Milestones]
   static Milestones getDistinctMilestone(Milestones users) {
     final idSet = <String>{};
     final distinctNodes = <MilestoneNode>[];
@@ -93,6 +93,7 @@ class IssueUtil {
     return users..nodes = distinctNodes;
   }
 
+  /// Gives the user [association] with the issue in presentable text format
   static String getFormattedAuthorAssociation(String? association) {
     if ([
       'MEMBER',
@@ -107,11 +108,14 @@ class IssueUtil {
     return '';
   }
 
+  /// Gives the sorting names for direction sorting for keys ASC and DESC
   static String getDirectionNameFromKey(String key) {
     if (key == 'ASC') return 'Oldest First';
     return 'Latest First';
   }
 
+  /// Gives distinct issue opened list.
+  /// This [getOpenedList] method removes the duplicates.
   static List<String> getOpenedList(int number, List<String> previousList) {
     final newList = List<String>.from(previousList)..add(number.toString());
     return newList.toSet().toList();

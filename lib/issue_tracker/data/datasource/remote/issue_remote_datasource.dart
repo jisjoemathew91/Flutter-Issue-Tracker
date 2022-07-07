@@ -67,7 +67,7 @@ abstract class IssueRemoteDataSource {
     String? direction,
   });
 
-  /// Fetches ilestones with a fixed [limit]
+  /// Fetches milestones with a fixed [limit]
   ///
   /// -> onSuccess returns [MilestonesModel]
   /// -> onError throws [Exception]

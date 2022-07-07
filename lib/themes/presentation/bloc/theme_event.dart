@@ -4,6 +4,8 @@ abstract class ThemeEvent extends Equatable {
   const ThemeEvent();
 }
 
+/// [ToggleThemeEvent] is triggred to switch the current theme.
+/// The event switch the theme to opposite of current theme.
 class ToggleThemeEvent extends ThemeEvent {
   const ToggleThemeEvent();
 
