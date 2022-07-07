@@ -31,9 +31,9 @@ jobs:
       - run: flutter analyze
       - run: flutter test
       - name: Decode JKS
-          run: |
-            echo "${{ secrets.RELEASE_KEYSTORE }}" > android/app/key.jks.asc
-            gpg -d --passphrase "${{ secrets.SECRET_PASSPHRASE}}" --batch android/app/key.jks.asc > android/app/key.jks
+        run: |
+          echo "${{ secrets.RELEASE_KEYSTORE }}" > android/app/key.jks.asc
+          gpg -d --passphrase "${{ secrets.SECRET_PASSPHRASE}}" --batch android/app/key.jks.asc > android/app/key.jks
       - name: Decode android/key.properties
           run: echo "${{ secrets.KEY_PROPERTIES_PROD }}" > android/key.properties
       - name: Bump version
