@@ -11,6 +11,9 @@ import 'package:flutter_issue_tracker/webview/presentation/util/html_util.dart';
 import 'package:flutter_issue_tracker/webview/presentation/widget/web_view_dialog.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+/// [CustomWebView] widget accepts [htmlText] (HTML body as [String]).
+/// The HTML string is shown as webview with theme handling
+/// and custom style especially for gith hub issue
 class CustomWebView extends StatelessWidget {
   const CustomWebView({super.key, required this.htmlText});
 
@@ -36,6 +39,8 @@ class CustomWebViewBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final _bloc = BlocProvider.of<WebViewBloc>(context);
 
+    // HTMl string wrapper over HTML lines of code
+    // which handles theme and automatic height adjusting
     final htmlString = '''
     <!DOCTYPE html>
         <head><meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -80,6 +85,7 @@ class CustomWebViewBody extends StatelessWidget {
       },
       javascriptChannels: <JavascriptChannel>{
         JavascriptChannel(
+          // Height observer channel name.
           name: 'Resize',
           onMessageReceived: (JavascriptMessage message) {
             _bloc.add(
@@ -91,6 +97,7 @@ class CustomWebViewBody extends StatelessWidget {
         ),
       },
       navigationDelegate: (NavigationRequest request) {
+        // Catches the the url navigation requests and pushes a webview dialog.
         if (request.url.startsWith('http')) {
           showDialog<CustomWebViewDialog>(
             context: context,
@@ -114,6 +121,8 @@ class CustomWebViewBody extends StatelessWidget {
     );
   }
 
+  // This method converts the HTML string to URI
+  // and loads it to webview controller
   Future _loadHtmlFromString(
     WebViewController controller,
     String htmlText,

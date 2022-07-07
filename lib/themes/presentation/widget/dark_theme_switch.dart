@@ -3,6 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_issue_tracker/themes/presentation/bloc/theme_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+/// [DarkThemeSwitch] widget can be called
+/// anywhere in the widget tree
+/// to switch between themes.
 class DarkThemeSwitch extends StatelessWidget {
   const DarkThemeSwitch({super.key});
 

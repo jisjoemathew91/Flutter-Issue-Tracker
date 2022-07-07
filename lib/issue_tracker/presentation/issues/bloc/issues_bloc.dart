@@ -77,6 +77,7 @@ class IssuesBloc extends Bloc<IssuesEvent, IssuesState> {
     Emitter<IssuesState> emit,
   ) async {
     emit(state.copyWith(issuesStatus: IssuesStatus.fetching));
+
     final result = await _getIssues.execute(
       owner: dotenv.env['PROJECT_OWNER']!,
       name: dotenv.env['PROJECT_NAME']!,
@@ -90,6 +91,7 @@ class IssuesBloc extends Bloc<IssuesEvent, IssuesState> {
       assignee: state.selectedAssignableUser?.login,
       nextToken: event.isInitial ? null : state.nextToken,
     );
+
     result.fold((failure) {
       emit(state.copyWith(issuesStatus: IssuesStatus.error));
     }, (data) {
@@ -105,6 +107,7 @@ class IssuesBloc extends Bloc<IssuesEvent, IssuesState> {
     Emitter<IssuesState> emit,
   ) async {
     emit(state.copyWith(labelsStatus: LabelsStatus.fetching));
+
     final result = await _getLabels.execute(
       owner: dotenv.env['PROJECT_OWNER']!,
       name: dotenv.env['PROJECT_NAME']!,
@@ -113,6 +116,7 @@ class IssuesBloc extends Bloc<IssuesEvent, IssuesState> {
       field: 'NAME',
       nextToken: event.isInitial ? null : state.nextTokenLabel,
     );
+
     result.fold((failure) {
       emit(state.copyWith(labelsStatus: LabelsStatus.error));
     }, (data) {
@@ -135,12 +139,14 @@ class IssuesBloc extends Bloc<IssuesEvent, IssuesState> {
     Emitter<IssuesState> emit,
   ) async {
     emit(state.copyWith(assignableUsersStatus: AssignableUsersStatus.fetching));
+
     final result = await _getAssignableUsers.execute(
       owner: dotenv.env['PROJECT_OWNER']!,
       name: dotenv.env['PROJECT_NAME']!,
       limit: 50,
       nextToken: event.isInitial ? null : state.nextTokenAssignableUsers,
     );
+
     result.fold((failure) {
       emit(state.copyWith(assignableUsersStatus: AssignableUsersStatus.error));
     }, (data) {
@@ -163,12 +169,14 @@ class IssuesBloc extends Bloc<IssuesEvent, IssuesState> {
     Emitter<IssuesState> emit,
   ) async {
     emit(state.copyWith(milestonesStatus: MilestonesStatus.fetching));
+
     final result = await _getMilestones.execute(
       owner: dotenv.env['PROJECT_OWNER']!,
       name: dotenv.env['PROJECT_NAME']!,
       limit: 50,
       nextToken: event.isInitial ? null : state.nextTokenMilestones,
     );
+
     result.fold((failure) {
       emit(state.copyWith(milestonesStatus: MilestonesStatus.error));
     }, (data) {
@@ -191,6 +199,7 @@ class IssuesBloc extends Bloc<IssuesEvent, IssuesState> {
     Emitter<IssuesState> emit,
   ) {
     if (state.states == event.states) return;
+
     emit(state.copyWith(states: event.states));
     add(const FetchIssuesEvent(isInitial: true));
   }
@@ -200,6 +209,7 @@ class IssuesBloc extends Bloc<IssuesEvent, IssuesState> {
     Emitter<IssuesState> emit,
   ) {
     if (state.direction == event.direction) return;
+
     emit(state.copyWith(direction: event.direction));
     add(const FetchIssuesEvent(isInitial: true));
   }

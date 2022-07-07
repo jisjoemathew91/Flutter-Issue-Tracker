@@ -22,6 +22,7 @@ import 'package:stacked_themes/stacked_themes.dart';
 
 final locator = GetIt.I;
 
+/// Initialising call for dependency injection
 Future<void> init() async {
   final sharedPreferences = await SharedPreferences.getInstance();
   locator

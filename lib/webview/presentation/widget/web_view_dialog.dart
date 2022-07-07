@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+/// [CustomWebViewDialog] accepts url and shows
+/// simple [WebView] widget in an alert box.
 class CustomWebViewDialog extends StatelessWidget {
   const CustomWebViewDialog({super.key, required this.url});
 

@@ -83,7 +83,17 @@ abstract class IssueRepository {
     String? nextToken,
   });
 
+  /// Fetches opened issues from local storage
+  ///
+  /// -> Returns `List<String>` when success
+  /// -> Return [Failure] when failed
   Either<Failure, List<String>> getOpenedIssues();
 
+  /// Updates opened issues in local storage
+  ///
+  /// -> Returns [bool] when success
+  /// -> Return [Failure] when failed
+  ///
+  /// Pass all the opened issue [numbers]
   Future<Either<Failure, bool>> setIssueOpened({required List<String> numbers});
 }
