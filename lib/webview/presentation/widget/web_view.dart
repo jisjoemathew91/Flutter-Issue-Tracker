@@ -44,9 +44,6 @@ class CustomWebViewBody extends StatelessWidget {
     final htmlString = '''
     <!DOCTYPE html>
         <head><meta name="viewport" content="width=device-width, initial-scale=1.0">
-        ${HTMLUtil.backgroundColor.withParams(<String>[
-          Theme.of(context).colorScheme.surface.toHex()
-        ])}
         <style>
         body { background-color: ${Theme.of(context).colorScheme.surface.toHex()};} 
         </style>

@@ -6,7 +6,7 @@ class HTMLUtil {
   static const String resizeObserver = '''
     <script>
           const resizeObserver = new ResizeObserver(entries =>
-          Resize.postMessage("height" + (entries[0].target.clientHeight).toString()) )
+          Resize.postMessage((entries[0].target.clientHeight).toString()) )
           resizeObserver.observe(document.body)
         </script>
     ''';
@@ -30,11 +30,5 @@ class HTMLUtil {
       display: block;
       word-wrap: break-word;
   }
-  </style>''';
-
-  /// HTML code handling the color of its view
-  static const String backgroundColor = r'''
-  <style>
-  body { background-color: $%[0];} 
   </style>''';
 }
