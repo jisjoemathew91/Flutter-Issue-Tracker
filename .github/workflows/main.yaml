@@ -1,32 +1,65 @@
-#name: flutter_issue_tracker
-#
-#on:
-#  # Triggers the workflow on push or pull request events but only for the "main" branch
-#  push:
-#    branches: [ "main" ]
-#  pull_request:
-#    branches: [ "main" ]
-#
-#  # Allows you to run this workflow manually from the Actions tab
-#  workflow_dispatch:
-#
-## A workflow run is made up of one or more jobs that can run sequentially or in parallel
-#jobs:
-#  build:
-#    name: Flutter Build
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#      - uses: actions/checkout@v3
-#      - uses: actions/setup-java@v2
-#        with:
-#          distribution: 'zulu'
-#          java-version: '11'
-#      - uses: subosito/flutter-action@v2
-#        with:
-#          flutter-version: '3.0.1'
-#          channel: 'stable'
-#      - run: flutter --version
-#      - run: flutter pub get
-#      - run: flutter analyze
-#      - run: flutter test
+name: flutter_issue_tracker
+
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build:
+    name: Flutter Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: '11'
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.0.3'
+          channel: 'stable'
+      - run: flutter --version
+      - name: Decode .env
+        run: echo "${{ secrets.ENV }}" > .env
+      - run: flutter pub get
+      - run: flutter analyze
+      - run: flutter test
+
+      - name: Decode JKS
+        run: |
+          echo "${{ secrets.RELEASE_KEYSTORE }}" > android/app/key.jks.asc
+          gpg -d --passphrase "${{ secrets.SECRET_PASSPHRASE}}" --batch android/app/key.jks.asc > android/app/key.jks
+      - name: Decode android/key.properties
+        run: echo "${{ secrets.KEY_PROPERTIES_PROD }}" > android/key.properties
+      - name: Bump version
+        uses: chkfung/android-version-actions@v1.1
+        with:
+          gradlePath: android/app/build.gradle
+          versionCode: ${{github.run_number}}
+          versionName: 1.0.0
+      - name: Build
+        run: |
+          mkdir $HOME/secrets
+          gpg --quiet --batch --yes --decrypt --passphrase="$SECRET_PASSPHRASE" \
+          --output $HOME/secrets/secrets.tar android/secrets.tar.gpg
+          tar xvf $HOME/secrets/secrets.tar
+          flutter build apk -t lib/main_production.dart --flavor=production
+          git config --global --add safe.directory /github/workspace
+        env:
+            SECRET_PASSPHRASE: ${{ secrets.SECRET_PASSPHRASE }}
+
+      - name: Deploy
+        uses: wzieba/Firebase-Distribution-Github-Action@v1.3.3
+        with:
+          appId: ${{secrets.FIREBASE_ANDROID_APPID}}
+          token: ${{secrets.FIREBASE_TOKEN}}
+          groups: testers
+          file: build/app/outputs/flutter-apk/app-production-release.apk

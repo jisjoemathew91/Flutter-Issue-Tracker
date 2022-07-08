@@ -75,6 +75,7 @@ class LabelsList extends StatelessWidget {
                             padding: EdgeInsets.only(top: 20.sp),
                             child: const Text(
                               'Oops! Check your connection.',
+                              key: Key('labelsListErrorKey'),
                             ),
                           ),
                         );
