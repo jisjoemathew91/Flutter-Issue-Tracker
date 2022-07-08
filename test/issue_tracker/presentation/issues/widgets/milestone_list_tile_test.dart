@@ -1,8 +1,6 @@
-import 'dart:io';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_issue_tracker/core/injection.dart';
 import 'package:flutter_issue_tracker/issue_tracker/domain/entities/milestone_node.dart';
 import 'package:flutter_issue_tracker/issue_tracker/presentation/issues/bloc/issues_bloc.dart';
@@ -19,13 +17,6 @@ void main() {
   final milestoneNode = MilestoneNode();
   setUpAll(() {
     initTheme();
-    HttpOverrides.global = HttpOverrides.current;
-    dotenv.testLoad(
-      fileInput: '''
-        PROJECT_OWNER=''
-        PROJECT_NAME=''
-      ''',
-    );
     locator
       ..registerLazySingleton<IssuesBloc>(MockIssuesBloc.new)
       ..registerLazySingleton<ThemeBloc>(() => ThemeBloc(service));

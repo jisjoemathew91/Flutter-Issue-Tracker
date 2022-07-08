@@ -1,5 +1,4 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_issue_tracker/core/injection.dart';
 import 'package:flutter_issue_tracker/issue_tracker/presentation/issues/bloc/issues_bloc.dart';
 import 'package:flutter_issue_tracker/issue_tracker/presentation/issues/pages/issues_page.dart';
@@ -16,12 +15,6 @@ import '../../../../helpers/theme.dart';
 void main() {
   final ThemeService service = MockThemeService();
   setUpAll(() {
-    dotenv.testLoad(
-      fileInput: '''
-        PROJECT_OWNER=''
-        PROJECT_NAME=''
-        ''',
-    );
     initTheme();
     locator
       ..registerLazySingleton<SplashBloc>(MockSplashBloc.new)

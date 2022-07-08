@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_issue_tracker/core/injection.dart';
 import 'package:flutter_issue_tracker/issue_tracker/domain/entities/label_node.dart';
 import 'package:flutter_issue_tracker/issue_tracker/domain/entities/labels.dart';
@@ -9,21 +8,15 @@ import 'package:flutter_issue_tracker/issue_tracker/presentation/issues/widgets/
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:stacked_themes/stacked_themes.dart';
 import '../../../../helpers/helpers.dart';
+import '../../../../helpers/theme.dart';
 
 void main() {
   late IssuesBloc issuesBloc;
   final labelNode = LabelNode();
 
   setUpAll(() {
-    ThemeManager.initialise();
-    dotenv.testLoad(
-      fileInput: '''
-        PROJECT_OWNER=''
-        PROJECT_NAME=''
-      ''',
-    );
+    initTheme();
     locator.registerLazySingleton<IssuesBloc>(MockIssuesBloc.new);
     issuesBloc = locator<IssuesBloc>();
   });
