@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_issue_tracker/core/injection.dart';
 import 'package:flutter_issue_tracker/issue_tracker/domain/entities/assignable_user_node.dart';
 import 'package:flutter_issue_tracker/issue_tracker/domain/entities/assignable_users.dart';
@@ -19,6 +22,13 @@ void main() {
   final ThemeService service = MockThemeService();
   setUpAll(() {
     initTheme();
+    HttpOverrides.global = HttpOverrides.current;
+    dotenv.testLoad(
+      fileInput: '''
+        PROJECT_OWNER=''
+        PROJECT_NAME=''
+      ''',
+    );
     locator
       ..registerLazySingleton<IssuesBloc>(MockIssuesBloc.new)
       ..registerLazySingleton<ThemeBloc>(() => ThemeBloc(service));
