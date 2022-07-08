@@ -13,3 +13,11 @@ class FetchIssueDetailsEvent extends IssueDetailsEvent {
   @override
   List<Object?> get props => [issueNumber];
 }
+
+/// [OpenIssueOnGithubEvent] opens the issue url
+class OpenIssueOnGithubEvent extends IssueDetailsEvent {
+  const OpenIssueOnGithubEvent();
+
+  @override
+  List<Object?> get props => [];
+}

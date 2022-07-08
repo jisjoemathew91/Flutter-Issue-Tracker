@@ -30,6 +30,7 @@ dependencies:
   stacked_themes: ^0.3.8+1
   stream_transform: ^2.0.0
   timeago: ^3.2.2
+  url_launcher: ^6.1.4
   webview_flutter: ^3.0.4
 
 dev_dependencies:
