@@ -13,6 +13,7 @@ class DarkThemeSwitch extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider.value(
       value: BlocProvider.of<ThemeBloc>(context),
+      key: const Key('darkThemeSwitchKey'),
       child: const DarkThemeSwitchView(),
     );
   }
@@ -29,6 +30,7 @@ class DarkThemeSwitchView extends StatelessWidget {
       bloc: _bloc,
       builder: (context, state) {
         return InkWell(
+          key: const Key('darkThemeSwitchViewInkwellKey'),
           onTap: () {
             _bloc.add(const ToggleThemeEvent());
           },

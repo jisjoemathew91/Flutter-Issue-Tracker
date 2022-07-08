@@ -24,6 +24,7 @@ dependencies:
   graphql_flutter: ^5.1.0
   intl: ^0.17.0
   modal_bottom_sheet: ^2.1.0
+  network_image_mock: ^2.1.1
   pull_to_refresh: ^2.0.0
   shared_preferences: ^2.0.15
   stacked_themes: ^0.3.8+1

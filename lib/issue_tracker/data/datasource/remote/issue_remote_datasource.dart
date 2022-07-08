@@ -105,6 +105,8 @@ class IssueRemoteDataSourceImpl implements IssueRemoteDataSource {
       } else {
         throw const ContextReadException();
       }
+    } on ContextReadException {
+      rethrow;
     } on Exception {
       throw const ServerException();
     }
@@ -158,6 +160,8 @@ class IssueRemoteDataSourceImpl implements IssueRemoteDataSource {
       } else {
         throw const ContextReadException();
       }
+    } on ContextReadException {
+      rethrow;
     } on Exception {
       throw const ServerException();
     }
@@ -187,6 +191,8 @@ class IssueRemoteDataSourceImpl implements IssueRemoteDataSource {
       } else {
         throw const ContextReadException();
       }
+    } on ContextReadException {
+      rethrow;
     } on Exception {
       throw const ServerException();
     }
@@ -221,6 +227,8 @@ class IssueRemoteDataSourceImpl implements IssueRemoteDataSource {
       } else {
         throw const ContextReadException();
       }
+    } on ContextReadException {
+      rethrow;
     } on Exception {
       throw const ServerException();
     }
@@ -249,6 +257,8 @@ class IssueRemoteDataSourceImpl implements IssueRemoteDataSource {
       } else {
         throw const ContextReadException();
       }
+    } on ContextReadException {
+      rethrow;
     } on Exception {
       throw const ServerException();
     }

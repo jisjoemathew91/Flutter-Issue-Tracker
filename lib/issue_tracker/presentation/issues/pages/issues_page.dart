@@ -83,6 +83,7 @@ class IssuesPageView extends StatelessWidget {
                     children: [
                       if (state.showClearFilter)
                         IssueFilterChip(
+                          key: const Key('clearAllChip'),
                           value: 'Clear All',
                           isHighlighted: true,
                           showDropDown: false,
@@ -91,6 +92,7 @@ class IssuesPageView extends StatelessWidget {
                           onPressed: () => _bloc.add(const ClearFilterEvent()),
                         ),
                       IssueFilterChip(
+                        key: const Key('issueStateFilter'),
                         value: state.states!.capitalizeFirstLetter(),
                         isHighlighted: true,
                         onPressed: () => showDialog<IssueStatesDialog>(
@@ -104,6 +106,7 @@ class IssuesPageView extends StatelessWidget {
                         ),
                       ),
                       IssueFilterChip(
+                        key: const Key('labelFilter'),
                         value: state.labelChipTitle,
                         isHighlighted: state.highlightLabelChip,
                         icon: Icons.label_outline,
@@ -123,6 +126,7 @@ class IssuesPageView extends StatelessWidget {
                         },
                       ),
                       IssueFilterChip(
+                        key: const Key('assigneeFilter'),
                         value: state.assigneeChipTitle,
                         isHighlighted: state.highlightAssigneeChip,
                         icon: Icons.person_outline,
@@ -141,6 +145,7 @@ class IssuesPageView extends StatelessWidget {
                         },
                       ),
                       IssueFilterChip(
+                        key: const Key('milestoneFilter'),
                         value: state.milestoneChipTitle,
                         isHighlighted: state.highlightMilestoneChip,
                         icon: Icons.flag_outlined,
@@ -167,6 +172,7 @@ class IssuesPageView extends StatelessWidget {
                         ),
                       ),
                       IssueFilterChip(
+                        key: const Key('sortChip'),
                         value: state.directionChipTitle,
                         isHighlighted: true,
                         icon: Icons.sort,
@@ -252,6 +258,7 @@ class IssuesPageView extends StatelessWidget {
                       if (state.issuesStatus == IssuesStatus.error &&
                           state.issues == null) {
                         return Center(
+                          key: const Key('errorText'),
                           child: Padding(
                             padding: EdgeInsets.only(top: 20.sp),
                             child: const Text(
