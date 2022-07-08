@@ -110,6 +110,9 @@ class IssueDetailsPageView extends StatelessWidget {
                                   issueNumber: state.issueNode?.number,
                                   issueTitle: state.issueNode?.title,
                                   state: state.issueNode?.state,
+                                  onOpenInGithub: (){
+                                    _bloc.add(const OpenIssueOnGithubEvent());
+                                  },
                                 ),
                                 SizedBox(height: 22.sp),
                                 UserProfile(

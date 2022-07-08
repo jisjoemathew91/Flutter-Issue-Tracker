@@ -11,12 +11,14 @@ class IssueHeader extends StatelessWidget {
     this.state,
     this.issueNumber,
     this.issueTitle,
+    this.onOpenInGithub,
   });
 
   final int? issueNumber;
   final String? issueTitle;
   final String? state;
   final String? stateReason;
+  final VoidCallback? onOpenInGithub;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +49,25 @@ class IssueHeader extends StatelessWidget {
             ),
           ),
           SizedBox(height: 10.sp),
-          IssueLabel(state: state, stateReason: stateReason),
+          Row(
+            children: [
+              IssueLabel(state: state, stateReason: stateReason),
+              const Spacer(),
+              MaterialButton(
+                onPressed: () => onOpenInGithub?.call(),
+                child: Text(
+                  '🔗 View in Github',
+                  style: AppTypography.style(
+                    isBold: true,
+                    textType: TextType.label,
+                    textSize: TextSize.small,
+                  ).copyWith(
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );
