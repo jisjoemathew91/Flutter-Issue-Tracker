@@ -46,6 +46,10 @@ Technical features and implementation includes:|
 * A CI on GitHub Actions on deploying Android Production level Application.
 * Deploy app to Firebase App Distribution - https://appdistribution.firebase.dev/i/e3c84871fd066b1c
 
+<img src="https://user-images.githubusercontent.com/77726591/177963172-527433dd-6354-4ad1-8ea0-f8205b2d790d.jpeg" width="200" height="400">
+<img src="https://user-images.githubusercontent.com/77726591/177964975-1912bb4d-5759-4e1c-ab6d-df286a156094.png" >
+<img src="https://user-images.githubusercontent.com/77726591/177963179-bcd28410-c434-4ce2-9d06-85842832e3ad.jpeg" width="200" height="400">
+
 
 ## The Code elements 🔡
 
