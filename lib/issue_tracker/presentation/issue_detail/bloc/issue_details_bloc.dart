@@ -43,8 +43,7 @@ class IssueDetailsBloc extends Bloc<IssueDetailsEvent, IssueDetailsState> {
     OpenIssueOnGithubEvent event,
     Emitter<IssueDetailsState> emit,
   ) async {
-    if (state.issueNode?.bodyUrl == null ||
-        await launchUrl(Uri.parse(state.issueNode!.bodyUrl!))) {
+    if (!await launchUrl(Uri.parse(state.issueNode!.bodyUrl!))) {
       ToastHelper.showLengthyToast('Could not open the page!');
     }
   }
